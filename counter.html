@@ -3,148 +3,308 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Counter</title>
+    <title>Pokémon Adventure Math Game</title>
     <style>
-        /* CSS Styling */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            min-height: 100vh;
-            background-color: #f0f2f5;
+            background-color: #f0f8ff;
+            color: #333;
             margin: 0;
+            padding: 20px;
         }
 
-        .counter-container {
-            text-align: center;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            background-color: #ffffff;
-            width: 90%;
-            max-width: 400px;
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        #count-display {
-            font-size: 4em;
-            margin: 20px 0;
-            font-weight: bold;
-            color: #007bff;
-            transition: transform 0.1s ease-out;
-        }
-
-        .button-group {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 30px;
-        }
-
-        button {
-            padding: 12px 24px;
-            margin: 5px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: 600;
-            color: white;
-            transition: background-color 0.2s, transform 0.1s;
-            flex-grow: 1;
-        }
-
-        #increment-btn {
-            background-color: #28a745; /* Green */
-        }
-        #increment-btn:hover {
-            background-color: #218838;
-        }
-
-        #decrement-btn {
-            background-color: #dc3545; /* Red */
-        }
-        #decrement-btn:hover {
-            background-color: #c82333;
-        }
-        
-        #reset-btn {
-            background-color: #ffc107; /* Yellow */
-            color: #333;
-            flex-grow: 0;
-            margin-top: 15px;
+        .header {
             width: 100%;
-        }
-        #reset-btn:hover {
-            background-color: #e0a800;
-        }
-        
-        button:active {
-            transform: scale(0.98);
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #ffe0b2;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
+        .info-box {
+            padding: 10px 15px;
+            border: 2px solid #ff9800;
+            border-radius: 6px;
+            background-color: #fffaf0;
+        }
+        
+        #collected-items {
+            font-size: 1.2em;
+            color: #008000;
+        }
+
+        .game-area {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        #question-display {
+            font-size: 2.5em;
+            margin: 20px 0;
+            color: #e91e63;
+            font-weight: bold;
+        }
+
+        .answer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .candy {
+            padding: 15px;
+            background-color: #4fc3f7;
+            color: white;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .candy:hover {
+            background-color: #03a9f4;
+        }
+
+        .result-message {
+            margin-top: 20px;
+            font-size: 1.3em;
+            min-height: 30px;
+            font-weight: bold;
+        }
+
+        .level-up {
+            color: #ff9800;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
     </style>
 </head>
 <body>
 
-    <div class="counter-container">
-        <h1>Simple Click Counter</h1>
-        
-        <p id="count-display">0</p>
-        
-        <div class="button-group">
-            <button id="increment-btn">Increment (+)</button>
-            <button id="decrement-btn">Decrement (-)</button>
+    <div class="header">
+        <div class="info-box">
+            <p>⏳ Time Left: <span id="timer">120</span>s</p>
+            <p>🏆 AI Score (P4): <span id="ai-score">0</span></p>
         </div>
+        <div class="info-box">
+            <p>
+                🐉 **CHARMANDER** Level: <span id="poke-level">1</span>
+                
+            </p>
+            <p>🍬 Candies Collected: <span id="user-score">0</span></p>
+        </div>
+        <div class="info-box">
+            Collected Item: <span id="collected-items">None</span>
+        </div>
+    </div>
+
+    <div class="game-area">
+        <h1>Solve the Math Riddle!</h1>
         
-        <button id="reset-btn">Reset to 0</button>
+        <div id="question-display">Loading...</div>
+
+        <div class="answer-grid" id="answer-grid">
+            <button class="candy" data-answer="0" onclick="checkAnswer(this)">0</button>
+            <button class="candy" data-answer="0" onclick="checkAnswer(this)">0</button>
+            <button class="candy" data-answer="0" onclick="checkAnswer(this)">0</button>
+        </div>
+
+        <div class="result-message" id="result-message"></div>
     </div>
 
     <script>
-        // JavaScript Logic
-        
-        // 1. Initialize the state variable
-        let count = 0;
-        
-        // 2. Get references to the HTML elements
-        const display = document.getElementById('count-display');
-        const incrementBtn = document.getElementById('increment-btn');
-        const decrementBtn = document.getElementById('decrement-btn');
-        const resetBtn = document.getElementById('reset-btn');
+        // Game Constants
+        const ROUND_TIME = 120; // 2 minutes in seconds
+        const CANDIES_TO_LEVEL = 30;
+        const POKEMON_LEVEL_NAMES = ["Hatchling", "Evolving", "Grown"];
 
-        // 3. Function to update the display text
-        function updateDisplay() {
-            display.textContent = count;
+        // Game State Variables
+        let userScore = 0;
+        let aiScore = 0;
+        let pokeLevel = 1;
+        let currentTimer = ROUND_TIME;
+        let correctAnswer = 0;
+        let gameActive = false;
+        let gameInterval;
+        let aiInterval;
+
+        // DOM Elements
+        const timerDisplay = document.getElementById('timer');
+        const userScoreDisplay = document.getElementById('user-score');
+        const aiScoreDisplay = document.getElementById('ai-score');
+        const pokeLevelDisplay = document.getElementById('poke-level');
+        const questionDisplay = document.getElementById('question-display');
+        const answerGrid = document.getElementById('answer-grid');
+        const resultMessage = document.getElementById('result-message');
+        const collectedItemsDisplay = document.getElementById('collected-items');
+
+        // --- Core Game Functions ---
+
+        /** Generates a simple addition math question. */
+        function generateQuestion() {
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            correctAnswer = num1 + num2;
+            
+            questionDisplay.textContent = `${num1} + ${num2} = ?`;
+            
+            // Generate three possible answers (one correct, two incorrect)
+            let answers = [correctAnswer];
+            
+            // Generate two incorrect, unique answers
+            while (answers.length < 3) {
+                let decoy = Math.floor(Math.random() * 20) + 2;
+                if (!answers.includes(decoy)) {
+                    answers.push(decoy);
+                }
+            }
+
+            // Shuffle the answers array
+            answers.sort(() => Math.random() - 0.5);
+
+            // Update the candy buttons
+            const buttons = answerGrid.querySelectorAll('.candy');
+            buttons.forEach((button, index) => {
+                button.textContent = answers[index];
+                button.setAttribute('data-answer', answers[index]);
+            });
         }
 
-        // 4. Add Event Listeners for button clicks
-        
-        // Increment Button
-        incrementBtn.addEventListener('click', () => {
-            count++;
-            updateDisplay();
-        });
+        /** Checks the user's selected answer. */
+        function checkAnswer(button) {
+            if (!gameActive) return;
 
-        // Decrement Button
-        decrementBtn.addEventListener('click', () => {
-            count--;
-            updateDisplay();
-        });
+            const selectedAnswer = parseInt(button.getAttribute('data-answer'));
 
-        // Reset Button
-        resetBtn.addEventListener('click', () => {
-            count = 0;
-            updateDisplay();
-        });
+            if (selectedAnswer === correctAnswer) {
+                userScore++;
+                userScoreDisplay.textContent = userScore;
+                resultMessage.textContent = "✅ Correct! Collected a Rare Candy!";
+                collectItem("Poké Ball"); // Example collected item
+                checkLevelUp();
+            } else {
+                resultMessage.textContent = "❌ Wrong Answer! Try again.";
+            }
 
-        // 5. Initial call to set the display to 0 when the page loads
-        updateDisplay();
-        
+            // Generate a new question immediately
+            setTimeout(generateQuestion, 500); 
+        }
+
+        /** Simple AI competitor logic (Level Normal P4). */
+        function aiTurn() {
+            // AI collects a candy every 4 seconds (Normal difficulty)
+            if (gameActive) {
+                aiScore++;
+                aiScoreDisplay.textContent = aiScore;
+            }
+        }
+
+        /** Manages the 2-minute round timer and game state. */
+        function gameLoop() {
+            if (!gameActive) return;
+
+            currentTimer--;
+            timerDisplay.textContent = currentTimer;
+
+            if (currentTimer <= 0) {
+                endRound();
+            }
+        }
+
+        /** Shows the collected item in the top right corner. */
+        function collectItem(itemName) {
+            collectedItemsDisplay.textContent = itemName;
+            // Clear the item after a short delay
+            setTimeout(() => {
+                collectedItemsDisplay.textContent = "None";
+            }, 5000);
+        }
+
+        /** Checks the level-up condition. */
+        function checkLevelUp() {
+            if (userScore >= CANDIES_TO_LEVEL && pokeLevel < 3) {
+                pokeLevel++;
+                pokeLevelDisplay.textContent = pokeLevel;
+                
+                // Reset score for the next level challenge
+                userScore = 0; 
+                userScoreDisplay.textContent = userScore;
+
+                resultMessage.innerHTML = `<span class="level-up">🎉 ${POKEMON_LEVEL_NAMES[pokeLevel - 1]}! Charmander Leveled Up to Lvl ${pokeLevel}!</span>`;
+                
+                // Restart the timer for a new challenge round
+                currentTimer = ROUND_TIME;
+            }
+        }
+
+        /** Ends the current game round. */
+        function endRound() {
+            clearInterval(gameInterval);
+            clearInterval(aiInterval);
+            gameActive = false;
+
+            let finalMessage = `Time's up! Final Score - You: ${userScore} | AI: ${aiScore}. `;
+            
+            if (pokeLevel < 3) {
+                finalMessage += "You did not reach the next level this round.";
+            }
+
+            if (userScore > aiScore) {
+                 finalMessage += " **You WIN the round!**";
+            } else if (aiScore > userScore) {
+                 finalMessage += " **AI WINS the round!**";
+            } else {
+                 finalMessage += " **It's a TIE!**";
+            }
+
+            questionDisplay.textContent = "ROUND ENDED";
+            resultMessage.textContent = finalMessage;
+        }
+
+        /** Initializes the game. */
+        function startGame() {
+            gameActive = true;
+            userScore = 0;
+            aiScore = 0;
+            pokeLevel = 1;
+            currentTimer = ROUND_TIME;
+
+            userScoreDisplay.textContent = userScore;
+            aiScoreDisplay.textContent = aiScore;
+            pokeLevelDisplay.textContent = pokeLevel;
+            timerDisplay.textContent = currentTimer;
+            resultMessage.textContent = "";
+
+            generateQuestion();
+
+            // Set up timers
+            gameInterval = setInterval(gameLoop, 1000); // Timer counts down every second
+            aiInterval = setInterval(aiTurn, 4000); // AI gets a point every 4 seconds
+        }
+
+        // Start the game when the page loads
+        document.addEventListener('DOMContentLoaded', startGame);
     </script>
-
 </body>
 </html>
