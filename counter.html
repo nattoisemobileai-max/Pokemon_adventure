@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Counter</title>
+    <style>
+        /* CSS Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+            margin: 0;
+        }
+
+        .counter-container {
+            text-align: center;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #count-display {
+            font-size: 4em;
+            margin: 20px 0;
+            font-weight: bold;
+            color: #007bff;
+            transition: transform 0.1s ease-out;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 12px 24px;
+            margin: 5px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: white;
+            transition: background-color 0.2s, transform 0.1s;
+            flex-grow: 1;
+        }
+
+        #increment-btn {
+            background-color: #28a745; /* Green */
+        }
+        #increment-btn:hover {
+            background-color: #218838;
+        }
+
+        #decrement-btn {
+            background-color: #dc3545; /* Red */
+        }
+        #decrement-btn:hover {
+            background-color: #c82333;
+        }
+        
+        #reset-btn {
+            background-color: #ffc107; /* Yellow */
+            color: #333;
+            flex-grow: 0;
+            margin-top: 15px;
+            width: 100%;
+        }
+        #reset-btn:hover {
+            background-color: #e0a800;
+        }
+        
+        button:active {
+            transform: scale(0.98);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="counter-container">
+        <h1>Simple Click Counter</h1>
+        
+        <p id="count-display">0</p>
+        
+        <div class="button-group">
+            <button id="increment-btn">Increment (+)</button>
+            <button id="decrement-btn">Decrement (-)</button>
+        </div>
+        
+        <button id="reset-btn">Reset to 0</button>
+    </div>
+
+    <script>
+        // JavaScript Logic
+        
+        // 1. Initialize the state variable
+        let count = 0;
+        
+        // 2. Get references to the HTML elements
+        const display = document.getElementById('count-display');
+        const incrementBtn = document.getElementById('increment-btn');
+        const decrementBtn = document.getElementById('decrement-btn');
+        const resetBtn = document.getElementById('reset-btn');
+
+        // 3. Function to update the display text
+        function updateDisplay() {
+            display.textContent = count;
+        }
+
+        // 4. Add Event Listeners for button clicks
+        
+        // Increment Button
+        incrementBtn.addEventListener('click', () => {
+            count++;
+            updateDisplay();
+        });
+
+        // Decrement Button
+        decrementBtn.addEventListener('click', () => {
+            count--;
+            updateDisplay();
+        });
+
+        // Reset Button
+        resetBtn.addEventListener('click', () => {
+            count = 0;
+            updateDisplay();
+        });
+
+        // 5. Initial call to set the display to 0 when the page loads
+        updateDisplay();
+        
+    </script>
+
+</body>
+</html>
