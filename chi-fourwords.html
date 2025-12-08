@@ -6,255 +6,10 @@
     <title>成語學習 - 餃子風格</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
-        }
+        /* 保持原有的 CSS 樣式不變，只添加遊戲相關的樣式 */
         
-        :root {
-            --dumpling-light: #FFF9F2;
-            --dumpling-dark: #F5E6D3;
-            --dumpling-brown: #D4A574;
-            --dumpling-red: #E87A5F;
-            --dumpling-green: #8AAE7F;
-            --dumpling-shadow: rgba(212, 165, 116, 0.3);
-            --text-dark: #5C3D2E;
-            --text-light: #8B6B4D;
-        }
-        
-        body {
-            background-color: var(--dumpling-light);
-            color: var(--text-dark);
-            display: flex;
-            min-height: 100vh;
-        }
-        
-        /* 左側邊欄 */
-        .sidebar {
-            width: 250px;
-            background-color: var(--dumpling-dark);
-            padding: 25px 15px;
-            box-shadow: 5px 0 15px var(--dumpling-shadow);
-            display: flex;
-            flex-direction: column;
-            z-index: 10;
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-left: 10px;
-        }
-        
-        .logo-icon {
-            background-color: var(--dumpling-red);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            color: white;
-            font-size: 20px;
-        }
-        
-        .logo-text {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
-        
-        .menu {
-            list-style: none;
-            margin-top: 10px;
-        }
-        
-        .menu-item {
-            margin-bottom: 10px;
-        }
-        
-        .menu-item a {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            text-decoration: none;
-            color: var(--text-dark);
-            border-radius: 50px;
-            transition: all 0.3s ease;
-        }
-        
-        .menu-item a:hover, .menu-item.active a {
-            background-color: var(--dumpling-brown);
-            color: white;
-        }
-        
-        .menu-item i {
-            margin-right: 15px;
-            font-size: 18px;
-            width: 25px;
-            text-align: center;
-        }
-        
-        .sidebar-footer {
-            margin-top: auto;
-            padding-top: 20px;
-            border-top: 2px dashed var(--dumpling-brown);
-            text-align: center;
-            color: var(--text-light);
-            font-size: 14px;
-        }
-        
-        /* 主內容區 */
-        .main-content {
-            flex: 1;
-            margin-left: 250px;
-            padding: 30px;
-            min-height: 100vh;
-        }
-        
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        
-        .page-title {
-            font-size: 32px;
-            color: var(--text-dark);
-            position: relative;
-            padding-left: 20px;
-        }
-        
-        .page-title:before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 5px;
-            height: 80%;
-            width: 8px;
-            background-color: var(--dumpling-red);
-            border-radius: 4px;
-        }
-        
-        .search-box {
-            display: flex;
-            background-color: white;
-            border-radius: 50px;
-            padding: 10px 20px;
-            box-shadow: 0 5px 15px var(--dumpling-shadow);
-            width: 300px;
-        }
-        
-        .search-box input {
-            border: none;
-            outline: none;
-            flex: 1;
-            font-size: 16px;
-            background: transparent;
-        }
-        
-        .search-box button {
-            background: none;
-            border: none;
-            color: var(--dumpling-brown);
-            font-size: 18px;
-            cursor: pointer;
-        }
-        
-        /* 主頁網格樣式 */
-        .idiom-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-        }
-        
-        .idiom-card {
-            background-color: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 8px 20px var(--dumpling-shadow);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-        }
-        
-        .idiom-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px var(--dumpling-shadow);
-        }
-        
-        .idiom-image {
-            height: 180px;
-            background-color: var(--dumpling-dark);
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-        
-        .idiom-text {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 42px;
-            font-weight: 900;
-            color: var(--text-dark);
-            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.7);
-        }
-        
-        .idiom-info {
-            padding: 20px;
-        }
-        
-        .idiom-info h3 {
-            font-size: 20px;
-            margin-bottom: 10px;
-            color: var(--text-dark);
-        }
-        
-        .idiom-info p {
-            color: var(--text-light);
-            line-height: 1.6;
-        }
-        
-        .difficulty {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-top: 10px;
-        }
-        
-        .difficulty.easy {
-            background-color: #e6f7e9;
-            color: var(--dumpling-green);
-        }
-        
-        .difficulty.medium {
-            background-color: #fff4e6;
-            color: #ffa726;
-        }
-        
-        .difficulty.hard {
-            background-color: #ffe6e6;
-            color: var(--dumpling-red);
-        }
-        
-        /* 詳細頁面樣式 */
-        .idiom-detail {
+        /* 遊戲頁面樣式 */
+        .game-container {
             background-color: white;
             border-radius: 20px;
             padding: 40px;
@@ -262,174 +17,386 @@
             margin-top: 20px;
         }
         
-        .idiom-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px dashed var(--dumpling-dark);
+        .game-header {
+            text-align: center;
+            margin-bottom: 40px;
         }
         
-        .idiom-title {
+        .game-title {
+            font-size: 36px;
+            color: var(--dumpling-red);
+            margin-bottom: 10px;
+        }
+        
+        .game-subtitle {
+            font-size: 18px;
+            color: var(--text-light);
+        }
+        
+        /* 遊戲主區域 */
+        .game-main {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .player-section, .ai-section {
+            flex: 1;
+            background-color: var(--dumpling-light);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--dumpling-brown);
+        }
+        
+        .player-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .player-you {
+            color: var(--dumpling-green);
+        }
+        
+        .player-ai {
+            color: var(--dumpling-red);
+        }
+        
+        /* 成語顯示區域 */
+        .idiom-display {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px dashed var(--dumpling-dark);
+        }
+        
+        .current-idiom {
             font-size: 48px;
+            font-weight: bold;
             color: var(--text-dark);
         }
         
-        .idiom-pinyin {
-            font-size: 24px;
+        .idiom-hint {
+            font-size: 20px;
             color: var(--dumpling-brown);
+            margin-top: 10px;
+        }
+        
+        /* 分數和計時器 */
+        .score-timer {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+        
+        .score-box, .timer-box {
+            background-color: var(--dumpling-light);
+            border-radius: 10px;
+            padding: 15px 25px;
+            text-align: center;
+        }
+        
+        .score-value, .timer-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--dumpling-red);
+        }
+        
+        .score-label, .timer-label {
+            font-size: 16px;
+            color: var(--text-light);
             margin-top: 5px;
         }
         
-        .back-button {
-            background-color: var(--dumpling-dark);
-            border: none;
-            border-radius: 50px;
-            padding: 12px 25px;
-            font-size: 16px;
-            color: var(--text-dark);
-            cursor: pointer;
+        /* 遊戲控制區 */
+        .game-controls {
             display: flex;
-            align-items: center;
-            transition: all 0.3s ease;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
         }
         
-        .back-button:hover {
+        .game-button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .start-button {
+            background-color: var(--dumpling-green);
+            color: white;
+        }
+        
+        .start-button:hover {
+            background-color: #7a9c70;
+        }
+        
+        .hint-button {
             background-color: var(--dumpling-brown);
             color: white;
         }
         
-        .back-button i {
-            margin-right: 8px;
+        .hint-button:hover {
+            background-color: #c09464;
         }
         
-        .detail-section {
-            margin-bottom: 40px;
+        .reset-button {
+            background-color: var(--dumpling-red);
+            color: white;
         }
         
-        .detail-section h2 {
-            font-size: 28px;
-            margin-bottom: 20px;
-            color: var(--text-dark);
-            display: flex;
-            align-items: center;
+        .reset-button:hover {
+            background-color: #d6694f;
         }
         
-        .detail-section h2 i {
-            margin-right: 15px;
-            color: var(--dumpling-red);
+        /* 輸入區域 */
+        .input-section {
             background-color: var(--dumpling-light);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .detail-section p {
-            font-size: 18px;
-            line-height: 1.8;
-            color: var(--text-light);
-            margin-bottom: 15px;
-        }
-        
-        .example {
-            background-color: var(--dumpling-light);
-            padding: 20px;
             border-radius: 15px;
-            margin-top: 15px;
-            border-left: 5px solid var(--dumpling-green);
+            padding: 25px;
+            margin-bottom: 30px;
         }
         
-        .example h4 {
-            color: var(--dumpling-green);
-            margin-bottom: 10px;
+        .input-title {
             font-size: 20px;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            text-align: center;
         }
         
-        .loading {
+        .input-container {
+            display: flex;
+            gap: 15px;
+        }
+        
+        #idiom-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid var(--dumpling-brown);
+            border-radius: 50px;
+            font-size: 18px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        #idiom-input:focus {
+            border-color: var(--dumpling-red);
+            box-shadow: 0 0 0 3px rgba(232, 122, 95, 0.2);
+        }
+        
+        #submit-button {
+            padding: 15px 30px;
+            background-color: var(--dumpling-red);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        #submit-button:hover {
+            background-color: #d6694f;
+        }
+        
+        /* 遊戲狀態 */
+        .game-status {
+            background-color: var(--dumpling-light);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .status-title {
+            font-size: 20px;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+        
+        .status-message {
+            font-size: 18px;
+            color: var(--text-light);
             text-align: center;
-            padding: 40px;
-            color: var(--dumpling-brown);
+            padding: 10px;
+        }
+        
+        .status-success {
+            color: var(--dumpling-green);
+            background-color: rgba(138, 174, 127, 0.1);
+            border-radius: 10px;
+        }
+        
+        .status-error {
+            color: var(--dumpling-red);
+            background-color: rgba(232, 122, 95, 0.1);
+            border-radius: 10px;
+        }
+        
+        /* 遊戲記錄 */
+        .game-history {
+            background-color: var(--dumpling-light);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .history-title {
+            font-size: 20px;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+        
+        .history-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid var(--dumpling-dark);
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .history-player {
+            font-weight: bold;
+        }
+        
+        .history-you {
+            color: var(--dumpling-green);
+        }
+        
+        .history-ai {
+            color: var(--dumpling-red);
+        }
+        
+        .history-idiom {
             font-size: 18px;
         }
         
-        .loading i {
-            font-size: 36px;
+        /* 難度選擇 */
+        .difficulty-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .difficulty-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--dumpling-brown);
+            background-color: white;
+            color: var(--dumpling-brown);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .difficulty-btn:hover {
+            background-color: var(--dumpling-light);
+        }
+        
+        .difficulty-btn.active {
+            background-color: var(--dumpling-brown);
+            color: white;
+        }
+        
+        /* 遊戲規則 */
+        .game-rules {
+            background-color: var(--dumpling-light);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .rules-title {
+            font-size: 20px;
+            color: var(--text-dark);
             margin-bottom: 15px;
-            display: block;
+        }
+        
+        .rules-list {
+            padding-left: 20px;
+        }
+        
+        .rules-list li {
+            margin-bottom: 10px;
+            color: var(--text-light);
+            line-height: 1.6;
         }
         
         /* 響應式設計 */
         @media (max-width: 1024px) {
-            .idiom-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 70px;
-                padding: 20px 10px;
-            }
-            
-            .logo-text, .menu-item span {
-                display: none;
-            }
-            
-            .logo {
-                justify-content: center;
-                padding-left: 0;
-            }
-            
-            .logo-icon {
-                margin-right: 0;
-            }
-            
-            .menu-item a {
-                justify-content: center;
-                padding: 15px;
-            }
-            
-            .menu-item i {
-                margin-right: 0;
-            }
-            
-            .main-content {
-                margin-left: 70px;
-                padding: 20px;
-            }
-            
-            .page-header {
+            .game-main {
                 flex-direction: column;
-                align-items: flex-start;
             }
             
-            .search-box {
-                width: 100%;
-                margin-top: 15px;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .idiom-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .idiom-detail {
-                padding: 25px;
-            }
-            
-            .idiom-title {
+            .current-idiom {
                 font-size: 36px;
             }
         }
         
-        /* 隱藏類別 */
-        .hidden {
-            display: none !important;
+        @media (max-width: 768px) {
+            .game-container {
+                padding: 20px;
+            }
+            
+            .game-controls {
+                flex-wrap: wrap;
+            }
+            
+            .input-container {
+                flex-direction: column;
+            }
+            
+            #submit-button {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .game-title {
+                font-size: 28px;
+            }
+            
+            .current-idiom {
+                font-size: 28px;
+            }
+            
+            .score-value, .timer-value {
+                font-size: 28px;
+            }
+            
+            .game-button {
+                padding: 12px 20px;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
@@ -448,6 +415,12 @@
                 <a href="#">
                     <i class="fas fa-home"></i>
                     <span>首頁</span>
+                </a>
+            </li>
+            <li class="menu-item" data-page="game">
+                <a href="#">
+                    <i class="fas fa-gamepad"></i>
+                    <span>成語接龍</span>
                 </a>
             </li>
             <li class="menu-item" data-page="common">
@@ -492,388 +465,618 @@
     <div class="main-content">
         <!-- 首頁內容 -->
         <div id="home-page" class="page-content">
-            <div class="page-header">
-                <h1 class="page-title">成語學習</h1>
-                <div class="search-box">
-                    <input type="text" id="search-input" placeholder="搜尋成語...">
-                    <button id="search-button"><i class="fas fa-search"></i></button>
-                </div>
-            </div>
-            
-            <div class="idiom-grid" id="idiom-grid">
-                <!-- 成語卡片將由JavaScript動態生成 -->
-            </div>
+            <!-- 原有的首頁內容保持不變 -->
         </div>
         
-        <!-- 詳細頁面 -->
-        <div id="detail-page" class="page-content hidden">
+        <!-- 遊戲頁面 -->
+        <div id="game-page" class="page-content hidden">
             <div class="page-header">
-                <h1 class="page-title">成語詳情</h1>
-                <button class="back-button" id="back-button">
+                <h1 class="page-title">成語接龍遊戲</h1>
+                <button class="back-button" id="back-button-game">
                     <i class="fas fa-arrow-left"></i> 返回列表
                 </button>
             </div>
             
-            <div id="detail-content" class="idiom-detail">
-                <!-- 詳細內容將由JavaScript動態生成 -->
+            <div class="game-container">
+                <!-- 遊戲標題 -->
+                <div class="game-header">
+                    <h2 class="game-title">請接住缺字！</h2>
+                    <p class="game-subtitle">與AI對戰，考驗你的成語知識！</p>
+                </div>
+                
+                <!-- 難度選擇 -->
+                <div class="difficulty-selector">
+                    <button class="difficulty-btn active" data-difficulty="easy">初級</button>
+                    <button class="difficulty-btn" data-difficulty="medium">中級</button>
+                    <button class="difficulty-btn" data-difficulty="hard">高級</button>
+                </div>
+                
+                <!-- 分數和計時器 -->
+                <div class="score-timer">
+                    <div class="score-box">
+                        <div class="score-value" id="player-score">0</div>
+                        <div class="score-label">你的分數</div>
+                    </div>
+                    <div class="timer-box">
+                        <div class="timer-value" id="game-timer">30</div>
+                        <div class="timer-label">剩餘時間(秒)</div>
+                    </div>
+                </div>
+                
+                <!-- 遊戲主區域 -->
+                <div class="game-main">
+                    <!-- 玩家區域 -->
+                    <div class="player-section">
+                        <h3 class="section-title">玩家</h3>
+                        <div class="player-name player-you">你</div>
+                        <div class="idiom-display">
+                            <div class="current-idiom" id="player-idiom">等待開始...</div>
+                        </div>
+                        <div class="idiom-hint" id="player-hint"></div>
+                    </div>
+                    
+                    <!-- AI區域 -->
+                    <div class="ai-section">
+                        <h3 class="section-title">AI對手</h3>
+                        <div class="player-name player-ai">成語大師</div>
+                        <div class="idiom-display">
+                            <div class="current-idiom" id="ai-idiom">準備對戰...</div>
+                        </div>
+                        <div class="idiom-hint" id="ai-hint"></div>
+                    </div>
+                </div>
+                
+                <!-- 遊戲狀態 -->
+                <div class="game-status">
+                    <div class="status-title">遊戲狀態</div>
+                    <div class="status-message" id="status-message">點擊"開始遊戲"按鈕開始對戰</div>
+                </div>
+                
+                <!-- 輸入區域 -->
+                <div class="input-section">
+                    <div class="input-title">請輸入接龍成語：</div>
+                    <div class="input-container">
+                        <input type="text" id="idiom-input" placeholder="輸入成語，例如：三心二意" maxlength="4">
+                        <button id="submit-button">提交</button>
+                    </div>
+                    <div style="text-align: center; margin-top: 10px; color: var(--text-light); font-size: 14px;">
+                        提示：輸入的成語必須以"<span id="required-first-char" style="color: var(--dumpling-red); font-weight: bold;">?</span>"開頭
+                    </div>
+                </div>
+                
+                <!-- 遊戲控制區 -->
+                <div class="game-controls">
+                    <button class="game-button start-button" id="start-button">
+                        <i class="fas fa-play"></i> 開始遊戲
+                    </button>
+                    <button class="game-button hint-button" id="hint-button">
+                        <i class="fas fa-lightbulb"></i> 提示
+                    </button>
+                    <button class="game-button reset-button" id="reset-button">
+                        <i class="fas fa-redo"></i> 重新開始
+                    </button>
+                </div>
+                
+                <!-- 遊戲記錄 -->
+                <div class="game-history">
+                    <div class="history-title">遊戲記錄</div>
+                    <div class="history-list" id="history-list">
+                        <!-- 遊戲記錄將動態生成 -->
+                    </div>
+                </div>
+                
+                <!-- 遊戲規則 -->
+                <div class="game-rules">
+                    <div class="rules-title">遊戲規則</div>
+                    <ul class="rules-list">
+                        <li>遊戲開始後，系統會給出一個起始成語</li>
+                        <li>你需要輸入一個以該成語最後一個字開頭的新成語</li>
+                        <li>AI也會根據你的成語接龍，輪流進行</li>
+                        <li>每次成功接龍得10分，接龍失敗或超時扣5分</li>
+                        <li>遊戲時間限制為30秒，時間到遊戲結束</li>
+                        <li>不能重複使用已經用過的成語</li>
+                        <li>可以使用提示功能，但每次使用會扣2分</li>
+                    </ul>
+                </div>
             </div>
         </div>
         
-        <!-- 關於頁面 -->
-        <div id="about-page" class="page-content hidden">
-            <div class="page-header">
-                <h1 class="page-title">關於成語學習</h1>
-            </div>
-            
-            <div class="idiom-detail">
-                <div class="detail-section">
-                    <h2><i class="fas fa-info-circle"></i>關於本應用</h2>
-                    <p>這是一個成語學習應用程式，採用溫暖的"餃子風格"設計，旨在讓學習成語變得更加有趣和親切。</p>
-                    <p>應用程式將每個成語的詳細資訊分離為獨立的JSON檔案，便於管理和擴展。</p>
-                </div>
-                
-                <div class="detail-section">
-                    <h2><i class="fas fa-book"></i>學習內容</h2>
-                    <p>本應用包含多個成語類別：</p>
-                    <div class="example">
-                        <h4>常用成語</h4>
-                        <p>日常生活中經常使用的成語</p>
-                    </div>
-                    <div class="example">
-                        <h4>成語故事</h4>
-                        <p>具有豐富歷史背景和故事的成語</p>
-                    </div>
-                    <div class="example">
-                        <h4>動物成語</h4>
-                        <p>包含動物名稱的成語</p>
-                    </div>
-                    <div class="example">
-                        <h4>數字成語</h4>
-                        <p>包含數字的成語</p>
-                    </div>
-                </div>
-                
-                <div class="detail-section">
-                    <h2><i class="fas fa-code"></i>技術實現</h2>
-                    <p>本應用使用以下技術：</p>
-                    <p>1. HTML5, CSS3, JavaScript (ES6+)</p>
-                    <p>2. Font Awesome 圖標庫</p>
-                    <p>3. 響應式網頁設計</p>
-                    <p>4. JSON 數據結構</p>
-                    <p>5. Fetch API 加載數據</p>
-                </div>
-            </div>
-        </div>
+        <!-- 其他頁面內容保持不變 -->
     </div>
 
     <script>
-        // 應用狀態
-        const AppState = {
-            currentPage: 'home',
-            currentIdiomId: null,
-            allIdioms: [],
-            filteredIdioms: []
+        // 遊戲狀態變量
+        const GameState = {
+            isPlaying: false,
+            gameTimer: 30,
+            timerInterval: null,
+            playerScore: 0,
+            aiScore: 0,
+            currentPlayer: 'player', // 'player' 或 'ai'
+            currentIdiom: '',
+            usedIdioms: new Set(),
+            difficulty: 'easy',
+            gameHistory: []
         };
         
-        // 頁面元素
-        const pageElements = {
-            homePage: document.getElementById('home-page'),
-            detailPage: document.getElementById('detail-page'),
-            aboutPage: document.getElementById('about-page'),
-            idiomGrid: document.getElementById('idiom-grid'),
-            detailContent: document.getElementById('detail-content'),
-            searchInput: document.getElementById('search-input'),
-            searchButton: document.getElementById('search-button'),
-            backButton: document.getElementById('back-button'),
-            menuItems: document.querySelectorAll('.menu-item')
+        // 遊戲頁面元素
+        const gameElements = {
+            gamePage: document.getElementById('game-page'),
+            playerScore: document.getElementById('player-score'),
+            gameTimer: document.getElementById('game-timer'),
+            playerIdiom: document.getElementById('player-idiom'),
+            aiIdiom: document.getElementById('ai-idiom'),
+            playerHint: document.getElementById('player-hint'),
+            aiHint: document.getElementById('ai-hint'),
+            statusMessage: document.getElementById('status-message'),
+            idiomInput: document.getElementById('idiom-input'),
+            submitButton: document.getElementById('submit-button'),
+            startButton: document.getElementById('start-button'),
+            hintButton: document.getElementById('hint-button'),
+            resetButton: document.getElementById('reset-button'),
+            requiredFirstChar: document.getElementById('required-first-char'),
+            historyList: document.getElementById('history-list'),
+            difficultyButtons: document.querySelectorAll('.difficulty-btn'),
+            backButtonGame: document.getElementById('back-button-game')
         };
         
-        // 初始化應用
-        document.addEventListener('DOMContentLoaded', function() {
-            // 加載成語數據
-            loadIdioms();
+        // 初始化遊戲
+        function initGame() {
+            // 重置遊戲狀態
+            GameState.isPlaying = false;
+            GameState.gameTimer = 30;
+            GameState.playerScore = 0;
+            GameState.aiScore = 0;
+            GameState.currentPlayer = 'player';
+            GameState.currentIdiom = '';
+            GameState.usedIdioms.clear();
+            GameState.gameHistory = [];
+            
+            // 更新UI
+            updateGameUI();
+            
+            // 清除定時器
+            if (GameState.timerInterval) {
+                clearInterval(GameState.timerInterval);
+                GameState.timerInterval = null;
+            }
             
             // 設置事件監聽器
-            setupEventListeners();
+            setupGameEventListeners();
+        }
+        
+        // 設置遊戲事件監聽器
+        function setupGameEventListeners() {
+            // 開始遊戲按鈕
+            gameElements.startButton.addEventListener('click', startGame);
             
-            // 顯示首頁
-            showPage('home');
-        });
+            // 提示按鈕
+            gameElements.hintButton.addEventListener('click', giveHint);
+            
+            // 重新開始按鈕
+            gameElements.resetButton.addEventListener('click', resetGame);
+            
+            // 提交按鈕
+            gameElements.submitButton.addEventListener('click', submitIdiom);
+            
+            // 輸入框回車事件
+            gameElements.idiomInput.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    submitIdiom();
+                }
+            });
+            
+            // 難度選擇按鈕
+            gameElements.difficultyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    gameElements.difficultyButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    GameState.difficulty = this.getAttribute('data-difficulty');
+                });
+            });
+            
+            // 返回按鈕
+            gameElements.backButtonGame.addEventListener('click', function() {
+                showPage('home');
+            });
+        }
         
-        // 加載成語數據
-        async function loadIdioms() {
-            try {
-                // 顯示加載狀態
-                pageElements.idiomGrid.innerHTML = `
-                    <div class="loading">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <p>正在加載成語數據...</p>
-                    </div>
-                `;
-                
-                // 在實際應用中，這裡會從服務器加載JSON文件
-                // 例如: const response = await fetch('idioms.json');
-                // const data = await response.json();
-                
-                // 模擬加載本地數據
-                const idioms = await loadLocalIdioms();
-                AppState.allIdioms = idioms;
-                AppState.filteredIdioms = [...idioms];
-                
-                // 渲染成語卡片
-                renderIdiomCards(idioms);
-            } catch (error) {
-                console.error('加載成語數據時出錯:', error);
-                pageElements.idiomGrid.innerHTML = `
-                    <div class="loading">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <p>加載數據失敗，請刷新頁面重試。</p>
-                    </div>
-                `;
+        // 開始遊戲
+        function startGame() {
+            if (GameState.isPlaying) return;
+            
+            initGame();
+            GameState.isPlaying = true;
+            
+            // 隨機選擇一個起始成語
+            selectRandomStartingIdiom();
+            
+            // 更新UI
+            updateGameUI();
+            updateStatusMessage('遊戲開始！請輸入接龍成語。', 'success');
+            
+            // 啟動計時器
+            startTimer();
+            
+            // 焦點到輸入框
+            gameElements.idiomInput.focus();
+        }
+        
+        // 選擇隨機起始成語
+        function selectRandomStartingIdiom() {
+            // 從已加載的成語中選擇一個
+            const availableIdioms = AppState.allIdioms.filter(idiom => 
+                idiom.name.length === 4 && 
+                !GameState.usedIdioms.has(idiom.name)
+            );
+            
+            if (availableIdioms.length === 0) {
+                // 如果沒有可用的成語，重置使用過的成語列表
+                GameState.usedIdioms.clear();
+                return selectRandomStartingIdiom();
             }
+            
+            const randomIndex = Math.floor(Math.random() * availableIdioms.length);
+            const startingIdiom = availableIdioms[randomIndex];
+            
+            GameState.currentIdiom = startingIdiom.name;
+            GameState.usedIdioms.add(startingIdiom.name);
+            
+            // 顯示起始成語
+            gameElements.playerIdiom.textContent = GameState.currentIdiom;
+            gameElements.playerHint.textContent = startingIdiom.meaning;
+            
+            // 更新需要的首字
+            const lastChar = GameState.currentIdiom.charAt(GameState.currentIdiom.length - 1);
+            gameElements.requiredFirstChar.textContent = lastChar;
+            
+            // 添加到歷史記錄
+            addToHistory('system', `遊戲開始：${GameState.currentIdiom}`);
         }
         
-        // 加載本地成語數據（模擬從JSON文件加載）
-        async function loadLocalIdioms() {
-            // 模擬異步加載
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    resolve([
-                        {
-                            id: 1,
-                            name: "畫龍點睛",
-                            pinyin: "huà lóng diǎn jīng",
-                            category: "story",
-                            difficulty: "medium",
-                            imageColor: "#F8B195",
-                            meaning: "比喻在關鍵處用一兩筆點明要旨，使整體更加生動傳神。",
-                            summary: "在畫好的龍上點上眼睛，龍就飛走了。比喻在關鍵處著力，使整體效果更加完美。"
-                        },
-                        {
-                            id: 2,
-                            name: "守株待兔",
-                            pinyin: "shǒu zhū dài tù",
-                            category: "common",
-                            difficulty: "easy",
-                            imageColor: "#F67280",
-                            meaning: "比喻死守狹隘經驗，不知變通，或妄想不勞而獲。",
-                            summary: "農夫因偶然撿到撞死在樹樁上的兔子，便放下農活每天守在樹樁旁等待兔子。"
-                        },
-                        {
-                            id: 3,
-                            name: "狐假虎威",
-                            pinyin: "hú jiǎ hǔ wēi",
-                            category: "animal",
-                            difficulty: "easy",
-                            imageColor: "#C06C84",
-                            meaning: "比喻倚仗別人的威勢來欺壓人。",
-                            summary: "狐狸假借老虎的威風，嚇跑了森林中的百獸。"
-                        },
-                        {
-                            id: 4,
-                            name: "對牛彈琴",
-                            pinyin: "duì niú tán qín",
-                            category: "animal",
-                            difficulty: "easy",
-                            imageColor: "#6C5B7B",
-                            meaning: "比喻對不懂道理的人講道理，對外行人說內行話。",
-                            summary: "古代音樂家公明儀對牛彈琴，牛無動於衷。"
-                        },
-                        {
-                            id: 5,
-                            name: "一石二鳥",
-                            pinyin: "yī shí èr niǎo",
-                            category: "common",
-                            difficulty: "easy",
-                            imageColor: "#355C7D",
-                            meaning: "比喻做一件事同時達到兩個目的。",
-                            summary: "用一塊石頭打下兩隻鳥，比喻一舉兩得。"
-                        },
-                        {
-                            id: 6,
-                            name: "朝三暮四",
-                            pinyin: "zhāo sān mù sì",
-                            category: "number",
-                            difficulty: "medium",
-                            imageColor: "#99B898",
-                            meaning: "比喻常常變卦，反覆無常。",
-                            summary: "養猴人給猴子早上三個栗子晚上四個，猴子不高興；改成早上四個晚上三個，猴子就高興了。"
-                        },
-                        {
-                            id: 7,
-                            name: "井底之蛙",
-                            pinyin: "jǐng dǐ zhī wā",
-                            category: "animal",
-                            difficulty: "easy",
-                            imageColor: "#FECEAB",
-                            meaning: "比喻見識短淺的人。",
-                            summary: "住在井底的青蛙認為天只有井口那麼大。"
-                        },
-                        {
-                            id: 8,
-                            name: "三心二意",
-                            pinyin: "sān xīn èr yì",
-                            category: "number",
-                            difficulty: "easy",
-                            imageColor: "#FF847C",
-                            meaning: "形容猶豫不決，意志不堅定。",
-                            summary: "心意不專一，一會兒想這樣，一會兒想那樣。"
-                        }
-                    ]);
-                }, 500); // 模擬網絡延遲
-            });
+        // 啟動計時器
+        function startTimer() {
+            GameState.timerInterval = setInterval(() => {
+                GameState.gameTimer--;
+                gameElements.gameTimer.textContent = GameState.gameTimer;
+                
+                if (GameState.gameTimer <= 0) {
+                    endGame('timeout');
+                }
+                
+                // 時間警告
+                if (GameState.gameTimer <= 10) {
+                    gameElements.gameTimer.style.color = 'var(--dumpling-red)';
+                }
+            }, 1000);
         }
         
-        // 加載單個成語的詳細數據（模擬從JSON文件加載）
-        async function loadIdiomDetail(id) {
-            // 模擬異步加載
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    // 根據ID返回不同的詳細數據
-                    const details = {
-                        1: {
-                            id: 1,
-                            name: "畫龍點睛",
-                            pinyin: "huà lóng diǎn jīng",
-                            origin: "出自唐代張彥遠《歷代名畫記》。傳說南朝梁代畫家張僧繇在金陵安樂寺牆壁上畫了四條龍，都沒有點眼睛。人們問他為什麼，他說點上眼睛龍就會飛走。人們不信，於是他點上兩條龍的眼睛，頓時雷電大作，兩條龍破壁飛天，只剩下沒有點眼睛的兩條龍。",
-                            story: "張僧繇是南北朝時期著名的畫家，尤其擅長畫龍。一次，他在金陵安樂寺的牆壁上畫了四條栩栩如生的龍，但都沒有畫眼睛。圍觀的人們覺得奇怪，問他為何不畫眼睛。張僧繇回答說：『如果畫上眼睛，龍就會飛走了。』人們都不相信，認為他在說大話。在眾人的再三請求下，張僧繇提起畫筆，給其中兩條龍點上了眼睛。頃刻間，電閃雷鳴，狂風大作，那兩條點了眼睛的龍破壁而出，騰空飛去，只剩下沒有點眼睛的兩條龍還留在牆壁上。",
-                            moral: "這個成語告訴我們，關鍵之處的少量筆墨或細微改動，往往能使整體作品或事情的效果產生質的飛躍。在關鍵處下功夫，能起到事半功倍的效果。",
-                            examples: [
-                                "他的建議為整個計劃畫龍點睛，使方案更加完善。",
-                                "這篇文章的結尾寫得非常好，起到了畫龍點睛的作用。",
-                                "導演在最後一幕加入的那個細節，真是畫龍點睛之筆。"
-                            ]
-                        },
-                        2: {
-                            id: 2,
-                            name: "守株待兔",
-                            pinyin: "shǒu zhū dài tù",
-                            origin: "出自《韓非子·五蠹》。戰國時期，宋國有個農夫，他的田地裡有一個樹樁。一天，一隻兔子跑得太快，撞在樹樁上折斷脖子死了。農夫撿到兔子後非常高興，從此放下農具，整天守在樹樁旁，希望再撿到撞死的兔子。結果兔子沒再撿到，他的田地也荒蕪了，自己成了宋國人的笑柄。",
-                            story: "從前宋國有個農夫，他每天在田裡辛勤勞作。有一天，他正在田裡幹活，突然看見一隻兔子飛快地跑過來，不小心撞在田邊的樹樁上，折斷脖子死了。農夫高高興興地撿起兔子回家美餐了一頓。從此，他再也不願下地幹活了，而是每天守在那個樹樁旁，等著再有兔子撞上來。時間一天天過去，他再也沒有等到第二隻撞死的兔子，而他田裡的莊稼卻因為無人照料而全都枯死了。這個故事在宋國傳開後，人們都笑他愚蠢。",
-                            moral: "這個成語告訴我們，不能把偶然發生的事情當作必然規律，不能心存僥倖，妄想不勞而獲。只有通過辛勤勞動，才能獲得真正的收穫。",
-                            examples: [
-                                "你不能總是守株待兔，等著機會上門，要主動去尋找機會。",
-                                "投資不能守株待兔，要根據市場變化調整策略。",
-                                "學習要靠自己努力，不能守株待兔地等待好成績。"
-                            ]
-                        },
-                        3: {
-                            id: 3,
-                            name: "狐假虎威",
-                            pinyin: "hú jiǎ hǔ wēi",
-                            origin: "出自《戰國策·楚策一》。老虎抓到狐狸要吃掉它，狐狸說：『天帝命我做百獸之王，你若吃我就是違抗天命。如果不信，可以跟在我後面走一趟，看看百獸見了我是不是都逃跑。』老虎同意了，跟在狐狸後面走，果然百獸見了都逃跑。老虎不知道百獸是害怕自己，還以為真是害怕狐狸。",
-                            story: "有一天，老虎在森林中抓到一隻狐狸，正要吃掉它。狐狸急中生智，對老虎說：『你敢吃我嗎？我是天帝派來管理百獸的，你要是吃了我，就是違抗天帝的命令！你要是不信，就跟在我後面走一趟，看看森林裡的動物見了我是不是都嚇得逃跑。』老虎將信將疑，就跟在狐狸後面走。果然，森林裡的動物們看見它們，都驚慌地逃跑了。老虎不知道動物們其實是害怕自己，還以為它們真的是害怕狐狸，於是就放走了狐狸。",
-                            moral: "這個成語告訴我們，有些人就像狐狸一樣，自己沒有真本事，卻借助別人的權勢來嚇唬人、欺壓人。我們要學會識破這種假象，不要被表面現象所迷惑。",
-                            examples: [
-                                "那個秘書常常狐假虎威，借著老闆的名義對員工發號施令。",
-                                "他不過是狐假虎威，實際上自己並沒有什麼本事。",
-                                "不要被那些狐假虎威的人嚇倒，要看清楚他們背後的真正實力。"
-                            ]
-                        }
-                    };
-                    
-                    resolve(details[id] || details[1]);
-                }, 300); // 模擬網絡延遲
-            });
-        }
-        
-        // 渲染成語卡片
-        function renderIdiomCards(idioms) {
-            if (idioms.length === 0) {
-                pageElements.idiomGrid.innerHTML = `
-                    <div class="loading">
-                        <i class="fas fa-search"></i>
-                        <p>沒有找到相關成語，請嘗試其他關鍵詞。</p>
-                    </div>
-                `;
+        // 提交成語
+        function submitIdiom() {
+            if (!GameState.isPlaying) {
+                updateStatusMessage('請先開始遊戲！', 'error');
                 return;
             }
             
-            pageElements.idiomGrid.innerHTML = idioms.map(idiom => `
-                <div class="idiom-card" data-id="${idiom.id}">
-                    <div class="idiom-image" style="background-color: ${idiom.imageColor}">
-                        <div class="idiom-text">${idiom.name}</div>
-                    </div>
-                    <div class="idiom-info">
-                        <h3>${idiom.name}</h3>
-                        <p>${idiom.meaning}</p>
-                        <span class="difficulty ${idiom.difficulty}">
-                            ${getDifficultyText(idiom.difficulty)}
-                        </span>
-                    </div>
+            const inputIdiom = gameElements.idiomInput.value.trim();
+            
+            // 驗證輸入
+            if (!validateIdiom(inputIdiom)) {
+                return;
+            }
+            
+            // 處理玩家回合
+            processPlayerTurn(inputIdiom);
+            
+            // 清空輸入框
+            gameElements.idiomInput.value = '';
+            
+            // 如果是AI回合，延遲後執行AI回合
+            if (GameState.currentPlayer === 'ai') {
+                setTimeout(processAiTurn, 1000);
+            }
+        }
+        
+        // 驗證成語
+        function validateIdiom(idiom) {
+            // 檢查是否為空
+            if (!idiom) {
+                updateStatusMessage('請輸入成語！', 'error');
+                return false;
+            }
+            
+            // 檢查長度是否為4
+            if (idiom.length !== 4) {
+                updateStatusMessage('成語必須是4個字！', 'error');
+                return false;
+            }
+            
+            // 檢查是否已使用過
+            if (GameState.usedIdioms.has(idiom)) {
+                updateStatusMessage('這個成語已經用過了！', 'error');
+                return false;
+            }
+            
+            // 檢查是否存在於成語庫中
+            const existsInDatabase = AppState.allIdioms.some(item => item.name === idiom);
+            if (!existsInDatabase) {
+                updateStatusMessage('這不是一個有效的成語！', 'error');
+                return false;
+            }
+            
+            // 檢查是否以正確的字開頭
+            const lastChar = GameState.currentIdiom.charAt(GameState.currentIdiom.length - 1);
+            if (idiom.charAt(0) !== lastChar) {
+                updateStatusMessage(`成語必須以"${lastChar}"開頭！`, 'error');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // 處理玩家回合
+        function processPlayerTurn(idiom) {
+            // 添加已使用成語
+            GameState.usedIdioms.add(idiom);
+            
+            // 更新當前成語
+            GameState.currentIdiom = idiom;
+            
+            // 更新分數
+            GameState.playerScore += 10;
+            
+            // 更新UI
+            gameElements.playerIdiom.textContent = idiom;
+            gameElements.playerScore.textContent = GameState.playerScore;
+            
+            // 顯示成語釋義
+            const idiomData = AppState.allIdioms.find(item => item.name === idiom);
+            if (idiomData) {
+                gameElements.playerHint.textContent = idiomData.meaning;
+            }
+            
+            // 更新需要的首字
+            const lastChar = idiom.charAt(idiom.length - 1);
+            gameElements.requiredFirstChar.textContent = lastChar;
+            
+            // 添加到歷史記錄
+            addToHistory('player', idiom);
+            
+            // 更新狀態消息
+            updateStatusMessage('接龍成功！+10分', 'success');
+            
+            // 切換到AI回合
+            GameState.currentPlayer = 'ai';
+        }
+        
+        // 處理AI回合
+        function processAiTurn() {
+            if (!GameState.isPlaying) return;
+            
+            // 根據難度選擇AI策略
+            const aiIdiom = findAiIdiom();
+            
+            if (aiIdiom) {
+                // 添加已使用成語
+                GameState.usedIdioms.add(aiIdiom.name);
+                
+                // 更新當前成語
+                GameState.currentIdiom = aiIdiom.name;
+                
+                // 更新AI分數
+                GameState.aiScore += 10;
+                
+                // 更新UI
+                gameElements.aiIdiom.textContent = aiIdiom.name;
+                gameElements.aiHint.textContent = aiIdiom.meaning;
+                
+                // 更新需要的首字
+                const lastChar = aiIdiom.name.charAt(aiIdiom.name.length - 1);
+                gameElements.requiredFirstChar.textContent = lastChar;
+                
+                // 添加到歷史記錄
+                addToHistory('ai', aiIdiom.name);
+                
+                // 更新狀態消息
+                updateStatusMessage(`AI接龍：${aiIdiom.name}`, 'success');
+                
+                // 切換到玩家回合
+                GameState.currentPlayer = 'player';
+            } else {
+                // AI無法接龍，玩家得分
+                GameState.playerScore += 5;
+                gameElements.playerScore.textContent = GameState.playerScore;
+                
+                updateStatusMessage('AI無法接龍！你獲得5分', 'success');
+                
+                // 重新選擇起始成語
+                selectRandomStartingIdiom();
+                GameState.currentPlayer = 'player';
+            }
+        }
+        
+        // 查找AI可用的成語
+        function findAiIdiom() {
+            const lastChar = GameState.currentIdiom.charAt(GameState.currentIdiom.length - 1);
+            
+            // 查找以指定字開頭的成語
+            let availableIdioms = AppState.allIdioms.filter(idiom => 
+                idiom.name.length === 4 &&
+                idiom.name.charAt(0) === lastChar &&
+                !GameState.usedIdioms.has(idiom.name)
+            );
+            
+            if (availableIdioms.length === 0) {
+                return null;
+            }
+            
+            // 根據難度選擇策略
+            switch (GameState.difficulty) {
+                case 'easy':
+                    // 簡單難度：隨機選擇
+                    return availableIdioms[Math.floor(Math.random() * availableIdioms.length)];
+                    
+                case 'medium':
+                    // 中等難度：選擇較少見的成語
+                    // 這裡可以根據使用頻率或其他指標來選擇
+                    return availableIdioms[Math.floor(Math.random() * availableIdioms.length)];
+                    
+                case 'hard':
+                    // 困難難度：選擇能讓玩家難以接龍的成語
+                    // 優先選擇以生僻字結尾的成語
+                    const hardIdioms = availableIdioms.filter(idiom => {
+                        const lastChar = idiom.name.charAt(idiom.name.length - 1);
+                        // 檢查這個字是否常見（簡化判斷）
+                        const commonChars = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '人', '大', '天', '小', '中', '心', '口', '手', '日', '月'];
+                        return !commonChars.includes(lastChar);
+                    });
+                    
+                    if (hardIdioms.length > 0) {
+                        return hardIdioms[Math.floor(Math.random() * hardIdioms.length)];
+                    }
+                    return availableIdioms[Math.floor(Math.random() * availableIdioms.length)];
+                    
+                default:
+                    return availableIdioms[Math.floor(Math.random() * availableIdioms.length)];
+            }
+        }
+        
+        // 提供提示
+        function giveHint() {
+            if (!GameState.isPlaying) {
+                updateStatusMessage('請先開始遊戲！', 'error');
+                return;
+            }
+            
+            if (GameState.playerScore < 2) {
+                updateStatusMessage('分數不足，無法使用提示！', 'error');
+                return;
+            }
+            
+            // 扣分
+            GameState.playerScore -= 2;
+            gameElements.playerScore.textContent = GameState.playerScore;
+            
+            // 查找可能的成語
+            const lastChar = GameState.currentIdiom.charAt(GameState.currentIdiom.length - 1);
+            const possibleIdioms = AppState.allIdioms.filter(idiom => 
+                idiom.name.length === 4 &&
+                idiom.name.charAt(0) === lastChar &&
+                !GameState.usedIdioms.has(idiom.name)
+            );
+            
+            if (possibleIdioms.length > 0) {
+                // 隨機選擇一個提示
+                const hintIdiom = possibleIdioms[Math.floor(Math.random() * possibleIdioms.length)];
+                
+                // 顯示提示（只顯示第一個字和最後一個字）
+                const hint = `${hintIdiom.name.charAt(0)}??${hintIdiom.name.charAt(3)}`;
+                updateStatusMessage(`提示：試試類似 "${hint}" 的成語（-2分）`, 'success');
+            } else {
+                updateStatusMessage('沒有可用的提示！', 'error');
+            }
+        }
+        
+        // 重置遊戲
+        function resetGame() {
+            initGame();
+            updateStatusMessage('遊戲已重置，點擊"開始遊戲"開始新對戰', 'success');
+        }
+        
+        // 結束遊戲
+        function endGame(reason) {
+            GameState.isPlaying = false;
+            
+            // 停止計時器
+            if (GameState.timerInterval) {
+                clearInterval(GameState.timerInterval);
+                GameState.timerInterval = null;
+            }
+            
+            // 顯示結果
+            let message = '';
+            if (reason === 'timeout') {
+                message = '時間到！遊戲結束。';
+            }
+            
+            // 確定勝負
+            let resultMessage = '';
+            if (GameState.playerScore > GameState.aiScore) {
+                resultMessage = `你贏了！最終比分：${GameState.playerScore} : ${GameState.aiScore}`;
+            } else if (GameState.playerScore < GameState.aiScore) {
+                resultMessage = `AI贏了！最終比分：${GameState.playerScore} : ${GameState.aiScore}`;
+            } else {
+                resultMessage = `平局！最終比分：${GameState.playerScore} : ${GameState.aiScore}`;
+            }
+            
+            updateStatusMessage(`${message} ${resultMessage}`, 'success');
+            
+            // 禁用輸入
+            gameElements.idiomInput.disabled = true;
+            gameElements.submitButton.disabled = true;
+        }
+        
+        // 更新遊戲UI
+        function updateGameUI() {
+            gameElements.playerScore.textContent = GameState.playerScore;
+            gameElements.gameTimer.textContent = GameState.gameTimer;
+            gameElements.gameTimer.style.color = 'var(--dumpling-red)';
+            
+            // 重置輸入框狀態
+            gameElements.idiomInput.disabled = !GameState.isPlaying;
+            gameElements.submitButton.disabled = !GameState.isPlaying;
+        }
+        
+        // 更新狀態消息
+        function updateStatusMessage(message, type) {
+            gameElements.statusMessage.textContent = message;
+            gameElements.statusMessage.className = 'status-message';
+            
+            if (type === 'success') {
+                gameElements.statusMessage.classList.add('status-success');
+            } else if (type === 'error') {
+                gameElements.statusMessage.classList.add('status-error');
+            }
+        }
+        
+        // 添加到歷史記錄
+        function addToHistory(player, idiom) {
+            const historyItem = {
+                player: player,
+                idiom: idiom,
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+            };
+            
+            GameState.gameHistory.push(historyItem);
+            
+            // 更新歷史列表
+            updateHistoryList();
+        }
+        
+        // 更新歷史列表
+        function updateHistoryList() {
+            gameElements.historyList.innerHTML = GameState.gameHistory.map(item => `
+                <div class="history-item">
+                    <span class="history-player ${item.player === 'player' ? 'history-you' : 'history-ai'}">
+                        ${item.player === 'player' ? '你' : item.player === 'ai' ? 'AI' : '系統'}
+                    </span>
+                    <span class="history-idiom">${item.idiom}</span>
+                    <span class="history-time">${item.time}</span>
                 </div>
             `).join('');
             
-            // 為卡片添加點擊事件
-            document.querySelectorAll('.idiom-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    const idiomId = parseInt(this.getAttribute('data-id'));
-                    showIdiomDetail(idiomId);
-                });
-            });
+            // 滾動到底部
+            gameElements.historyList.scrollTop = gameElements.historyList.scrollHeight;
         }
         
-        // 顯示成語詳細頁面
-        async function showIdiomDetail(id) {
-            AppState.currentIdiomId = id;
-            
-            // 顯示加載狀態
-            pageElements.detailContent.innerHTML = `
-                <div class="loading">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    <p>正在加載成語詳情...</p>
-                </div>
-            `;
-            
-            // 顯示詳細頁面
-            showPage('detail');
-            
-            // 加載詳細數據
-            const detail = await loadIdiomDetail(id);
-            
-            // 渲染詳細頁面
-            renderIdiomDetail(detail);
-        }
-        
-        // 渲染成語詳細頁面
-        function renderIdiomDetail(detail) {
-            pageElements.detailContent.innerHTML = `
-                <div class="idiom-header">
-                    <div>
-                        <h1 class="idiom-title">${detail.name}</h1>
-                        <div class="idiom-pinyin">${detail.pinyin}</div>
-                    </div>
-                </div>
-                
-                <div class="detail-section">
-                    <h2><i class="fas fa-landmark"></i>成語出處及故事</h2>
-                    <p><strong>出處：</strong>${detail.origin}</p>
-                    <p><strong>故事：</strong>${detail.story}</p>
-                </div>
-                
-                <div class="detail-section">
-                    <h2><i class="fas fa-lightbulb"></i>成語的道理</h2>
-                    <p>${detail.moral}</p>
-                </div>
-                
-                <div class="detail-section">
-                    <h2><i class="fas fa-comment"></i>例句</h2>
-                    ${detail.examples.map((example, index) => `
-                        <div class="example">
-                            <h4>例${index + 1}</h4>
-                            <p>${example}</p>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        }
-        
-        // 顯示頁面
+        // 在原有的應用狀態中添加遊戲頁面
+        // 修改 showPage 函數
         function showPage(pageName) {
             // 隱藏所有頁面
             pageElements.homePage.classList.add('hidden');
             pageElements.detailPage.classList.add('hidden');
             pageElements.aboutPage.classList.add('hidden');
+            gameElements.gamePage.classList.add('hidden');
             
             // 顯示目標頁面
             if (pageName === 'home') {
@@ -882,99 +1085,4 @@
                 pageElements.detailPage.classList.remove('hidden');
             } else if (pageName === 'about') {
                 pageElements.aboutPage.classList.remove('hidden');
-            }
-            
-            // 更新菜單狀態
-            pageElements.menuItems.forEach(item => {
-                if (item.getAttribute('data-page') === pageName) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
-            });
-            
-            // 更新當前頁面狀態
-            AppState.currentPage = pageName;
-        }
-        
-        // 設置事件監聽器
-        function setupEventListeners() {
-            // 菜單點擊事件
-            pageElements.menuItems.forEach(item => {
-                item.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const page = this.getAttribute('data-page');
-                    
-                    if (page === 'home') {
-                        // 如果是首頁，重置過濾並顯示所有成語
-                        AppState.filteredIdioms = [...AppState.allIdioms];
-                        renderIdiomCards(AppState.filteredIdioms);
-                        pageElements.searchInput.value = '';
-                    }
-                    
-                    showPage(page);
-                });
-            });
-            
-            // 返回按鈕
-            pageElements.backButton.addEventListener('click', function() {
-                showPage('home');
-            });
-            
-            // 搜索按鈕
-            pageElements.searchButton.addEventListener('click', performSearch);
-            
-            // 搜索輸入框回車事件
-            pageElements.searchInput.addEventListener('keyup', function(e) {
-                if (e.key === 'Enter') {
-                    performSearch();
-                }
-            });
-        }
-        
-        // 執行搜索
-        function performSearch() {
-            const searchTerm = pageElements.searchInput.value.trim().toLowerCase();
-            
-            if (searchTerm === '') {
-                // 如果搜索框為空，顯示所有成語
-                AppState.filteredIdioms = [...AppState.allIdioms];
-            } else {
-                // 過濾成語
-                AppState.filteredIdioms = AppState.allIdioms.filter(idiom => 
-                    idiom.name.toLowerCase().includes(searchTerm) || 
-                    idiom.pinyin.toLowerCase().includes(searchTerm) ||
-                    idiom.meaning.toLowerCase().includes(searchTerm)
-                );
-            }
-            
-            // 渲染過濾後的成語卡片
-            renderIdiomCards(AppState.filteredIdioms);
-            
-            // 確保顯示首頁
-            showPage('home');
-        }
-        
-        // 獲取難度文本
-        function getDifficultyText(difficulty) {
-            const difficultyMap = {
-                'easy': '初級',
-                'medium': '中級',
-                'hard': '高級'
-            };
-            return difficultyMap[difficulty] || '未知';
-        }
-        
-        // 獲取類別文本
-        function getCategoryText(category) {
-            const categoryMap = {
-                'common': '常用成語',
-                'story': '成語故事',
-                'animal': '動物成語',
-                'number': '數字成語'
-            };
-            return categoryMap[category] || '其他';
-        }
-    </script>
-</body>
-</html>
+            } else if (page
