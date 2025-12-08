@@ -1,0 +1,164 @@
+{
+  "idioms": [
+    {
+      "id": 1,
+      "name": "畫龍點睛",
+      "pinyin": "huà lóng diǎn jīng",
+      "category": "story",
+      "difficulty": "medium",
+      "imageColor": "#F8B195",
+      "meaning": "比喻在關鍵處用一兩筆點明要旨，使整體更加生動傳神。",
+      "summary": "在畫好的龍上點上眼睛，龍就飛走了。比喻在關鍵處著力，使整體效果更加完美。"
+    },
+    {
+      "id": 2,
+      "name": "守株待兔",
+      "pinyin": "shǒu zhū dài tù",
+      "category": "common",
+      "difficulty": "easy",
+      "imageColor": "#F67280",
+      "meaning": "比喻死守狹隘經驗，不知變通，或妄想不勞而獲。",
+      "summary": "農夫因偶然撿到撞死在樹樁上的兔子，便放下農活每天守在樹樁旁等待兔子。"
+    },
+    {
+      "id": 3,
+      "name": "狐假虎威",
+      "pinyin": "hú jiǎ hǔ wēi",
+      "category": "animal",
+      "difficulty": "easy",
+      "imageColor": "#C06C84",
+      "meaning": "比喻倚仗別人的威勢來欺壓人。",
+      "summary": "狐狸假借老虎的威風，嚇跑了森林中的百獸。"
+    },
+    {
+      "id": 4,
+      "name": "對牛彈琴",
+      "pinyin": "duì niú tán qín",
+      "category": "animal",
+      "difficulty": "easy",
+      "imageColor": "#6C5B7B",
+      "meaning": "比喻對不懂道理的人講道理，對外行人說內行話。",
+      "summary": "古代音樂家公明儀對牛彈琴，牛無動於衷。"
+    },
+    {
+      "id": 5,
+      "name": "一石二鳥",
+      "pinyin": "yī shí èr niǎo",
+      "category": "common",
+      "difficulty": "easy",
+      "imageColor": "#355C7D",
+      "meaning": "比喻做一件事同時達到兩個目的。",
+      "summary": "用一塊石頭打下兩隻鳥，比喻一舉兩得。"
+    },
+    {
+      "id": 6,
+      "name": "朝三暮四",
+      "pinyin": "zhāo sān mù sì",
+      "category": "number",
+      "difficulty": "medium",
+      "imageColor": "#99B898",
+      "meaning": "比喻常常變卦，反覆無常。",
+      "summary": "養猴人給猴子早上三個栗子晚上四個，猴子不高興；改成早上四個晚上三個，猴子就高興了。"
+    },
+    {
+      "id": 7,
+      "name": "井底之蛙",
+      "pinyin": "jǐng dǐ zhī wā",
+      "category": "animal",
+      "difficulty": "easy",
+      "imageColor": "#FECEAB",
+      "meaning": "比喻見識短淺的人。",
+      "summary": "住在井底的青蛙認為天只有井口那麼大。"
+    },
+    {
+      "id": 8,
+      "name": "三心二意",
+      "pinyin": "sān xīn èr yì",
+      "category": "number",
+      "difficulty": "easy",
+      "imageColor": "#FF847C",
+      "meaning": "形容猶豫不決，意志不堅定。",
+      "summary": "心意不專一，一會兒想這樣，一會兒想那樣。"
+    },
+    {
+      "id": 9,
+      "name": "亡羊補牢",
+      "pinyin": "wáng yáng bǔ láo",
+      "category": "common",
+      "difficulty": "easy",
+      "imageColor": "#E84A5F",
+      "meaning": "比喻出了問題後及時補救，可以防止繼續受損失。",
+      "summary": "羊丟了才修理羊圈，比喻出了問題後及時補救。"
+    },
+    {
+      "id": 10,
+      "name": "杯弓蛇影",
+      "pinyin": "bēi gōng shé yǐng",
+      "category": "story",
+      "difficulty": "medium",
+      "imageColor": "#2A363B",
+      "meaning": "比喻因疑神疑鬼而引起恐懼。",
+      "summary": "將酒杯中的弓影誤認為是蛇而生病，比喻疑神疑鬼，自相驚擾。"
+    },
+    {
+      "id": 11,
+      "name": "畫蛇添足",
+      "pinyin": "huà shé tiān zú",
+      "category": "story",
+      "difficulty": "medium",
+      "imageColor": "#FF8C94",
+      "meaning": "比喻做了多餘的事，反而有害無益。",
+      "summary": "比賽畫蛇，先畫好的人給蛇添上腳，反而輸了比賽。"
+    },
+    {
+      "id": 12,
+      "name": "葉公好龍",
+      "pinyin": "yè gōng hào lóng",
+      "category": "story",
+      "difficulty": "medium",
+      "imageColor": "#A8E6CE",
+      "meaning": "比喻表面上愛好某事物，實際上並不真愛好。",
+      "summary": "葉公聲稱喜歡龍，真龍來了卻嚇得逃跑。"
+    },
+    {
+      "id": 13,
+      "name": "鶴立雞群",
+      "pinyin": "hè lì jī qún",
+      "category": "animal",
+      "difficulty": "easy",
+      "imageColor": "#6EC6CA",
+      "meaning": "比喻一個人的才能或儀表在一群人中顯得很突出。",
+      "summary": "鶴站在雞群中，顯得特別突出。"
+    },
+    {
+      "id": 14,
+      "name": "一箭雙鵰",
+      "pinyin": "yī jiàn shuāng diāo",
+      "category": "animal",
+      "difficulty": "easy",
+      "imageColor": "#FFAAA6",
+      "meaning": "比喻做一件事達到兩個目的。",
+      "summary": "一支箭射中兩隻雕，比喻一舉兩得。"
+    },
+    {
+      "id": 15,
+      "name": "九牛一毛",
+      "pinyin": "jiǔ niú yī máo",
+      "category": "number",
+      "difficulty": "easy",
+      "imageColor": "#A8A7A7",
+      "meaning": "比喻極大數量中的極小部分，微不足道。",
+      "summary": "九頭牛身上的一根毛，比喻極其微小。"
+    },
+    {
+      "id": 16,
+      "name": "十全十美",
+      "pinyin": "shí quán shí měi",
+      "category": "number",
+      "difficulty": "easy",
+      "imageColor": "#CC527A",
+      "meaning": "十分完美，毫無欠缺。",
+      "summary": "形容非常完美，沒有缺點。"
+    }
+  ]
+}
