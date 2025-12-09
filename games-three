@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三國猛將傳 - 橫版動作遊戲</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft JhengHei', sans-serif;
+        }
+        
+        body {
+            background-color: #0a1520;
+            color: #f0e6d2;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #d4af37;
+            font-size: 2.8rem;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #a52a2a, #d4af37, #a52a2a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            color: #c9b37e;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .game-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .game-area {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            height: 500px;
+            background: linear-gradient(to bottom, #1a3a5f 0%, #0a1520 30%);
+            border: 5px solid #5d4c2a;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+        }
+        
+        .game-ui {
+            width: 100%;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            background-color: rgba(26, 58, 95, 0.9);
+            border-bottom: 3px solid #5d4c2a;
+            z-index: 10;
+        }
+        
+        .player-info, .game-stats {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .health-bar-container {
+            width: 200px;
+            height: 25px;
+            background-color: #333;
+            border: 2px solid #5d4c2a;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .health-bar {
+            height: 100%;
+            background: linear-gradient(to right, #a52a2a, #e74c3c);
+            width: 100%;
+            transition: width 0.3s;
+        }
+        
+        .player-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #d4af37;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        
+        .score, .level {
+            font-size: 1.3rem;
+            color: #f0e6d2;
+            font-weight: bold;
+        }
+        
+        .game-screen {
+            position: relative;
+            width: 100%;
+            height: calc(100% - 63px);
+            overflow: hidden;
+        }
+        
+        /* 遊戲元素樣式 */
+        .player {
+            position: absolute;
+            bottom: 100px;
+            left: 100px;
+            width: 100px;
+            height: 140px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 5;
+            transition: left 0.1s;
+        }
+        
+        .enemy {
+            position: absolute;
+            bottom: 100px;
+            width: 80px;
+            height: 110px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 4;
+        }
+        
+        .boss {
+            position: absolute;
+            bottom: 80px;
+            width: 120px;
+            height: 160px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 4;
+        }
+        
+        .attack-effect {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 0, 0.7);
+            border-radius: 50%;
+            z-index: 3;
+            opacity: 0;
+        }
+        
+        .special-effect {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255,100,0,0.8) 0%, rgba(255,0,0,0) 70%);
+            z-index: 6;
+            opacity: 0;
+        }
+        
+        .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to top, #3a2710 0%, #5d4c2a 100%);
+            z-index: 2;
+        }
+        
+        .background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        /* 角色選擇區域 */
+        .character-select {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .character-card {
+            width: 160px;
+            padding: 15px;
+            background: linear-gradient(to bottom, #2c3e50, #1a252f);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+        
+        .character-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .character-card.selected {
+            border-color: #d4af37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.7);
+        }
+        
+        .character-icon {
+            width: 100px;
+            height: 130px;
+            margin: 0 auto 10px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .character-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #d4af37;
+            margin-bottom: 5px;
+        }
+        
+        .character-desc {
+            font-size: 0.9rem;
+            color: #bdc3c7;
+            margin-bottom: 10px;
+            min-height: 60px;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+            margin-bottom: 30px;
+        }
+        
+        .control-section {
+            background-color: rgba(26, 58, 95, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            border: 2px solid #5d4c2a;
+        }
+        
+        .control-section h3 {
+            color: #d4af37;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        
+        .control-keys {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .key {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #2c3e50;
+            border: 2px solid #5d4c2a;
+            border-radius: 8px;
+            font-weight: bold;
+            color: #f0e6d2;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .key-action {
+            color: #d4af37;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .game-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-start {
+            background: linear-gradient(to bottom, #27ae60, #219653);
+            color: white;
+        }
+        
+        .btn-start:hover {
+            background: linear-gradient(to bottom, #219653, #1e8449);
+            transform: scale(1.05);
+        }
+        
+        .btn-reset {
+            background: linear-gradient(to bottom, #e74c3c, #c0392b);
+            color: white;
+        }
+        
+        .btn-reset:hover {
+            background: linear-gradient(to bottom, #c0392b, #a93226);
+            transform: scale(1.05);
+        }
+        
+        .instructions {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(26, 58, 95, 0.8);
+            border-radius: 10px;
+            width: 100%;
+            max-width: 900px;
+            border: 2px solid #5d4c2a;
+        }
+        
+        .instructions h3 {
+            color: #d4af37;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        
+        .instructions p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            z-index: 100;
+            display: none;
+            border: 5px solid #d4af37;
+            width: 80%;
+            max-width: 500px;
+        }
+        
+        .game-over h2 {
+            color: #d4af37;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .game-over p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #f0e6d2;
+        }
+        
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            width: 100%;
+            padding-top: 20px;
+            border-top: 1px solid #34495e;
+        }
+        
+        @media (max-width: 768px) {
+            .game-area {
+                height: 400px;
+            }
+            
+            .player {
+                width: 80px;
+                height: 110px;
+            }
+            
+            .enemy {
+                width: 60px;
+                height: 85px;
+            }
+            
+            .controls {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .game-area {
+                height: 350px;
+            }
+            
+            .character-select {
+                gap: 15px;
+            }
+            
+            .character-card {
+                width: 130px;
+                padding: 10px;
+            }
+            
+            .character-icon {
+                width: 80px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>三國猛將傳</h1>
+            <div class="subtitle">選擇你的武將，在戰場上展現無雙勇猛！</div>
+        </header>
+        
+        <div class="character-select">
+            <div class="character-card" data-character="guanyu">
+                <div class="character-icon" id="guanyu-icon"></div>
+                <div class="character-name">關羽</div>
+                <div class="character-desc">武聖關雲長，青龍偃月刀所向披靡，擁有強大的單體攻擊力。</div>
+                <div class="key-action">攻擊力高，技能：青龍斬</div>
+            </div>
+            
+            <div class="character-card selected" data-character="zhangfei">
+                <div class="character-icon" id="zhangfei-icon"></div>
+                <div class="character-name">張飛</div>
+                <div class="character-desc">萬人敵張翼德，勇猛無雙，擁有範圍攻擊能力。</div>
+                <div class="key-action">範圍攻擊，技能：雷霆怒吼</div>
+            </div>
+            
+            <div class="character-card" data-character="lvbu">
+                <div class="character-icon" id="lvbu-icon"></div>
+                <div class="character-name">呂布</div>
+                <div class="character-desc">人中呂布，馬中赤兔，三國第一猛將，攻擊力最強但防禦較弱。</div>
+                <div class="key-action">攻擊最強，技能：天下無雙</div>
+            </div>
+        </div>
+        
+        <div class="game-container">
+            <div class="game-area">
+                <div class="game-ui">
+                    <div class="player-info">
+                        <div class="player-name" id="current-character-name">張飛</div>
+                        <div class="health-bar-container">
+                            <div class="health-bar" id="player-health-bar"></div>
+                        </div>
+                    </div>
+                    <div class="game-stats">
+                        <div class="score">得分: <span id="score-value">0</span></div>
+                        <div class="level">關卡: <span id="level-value">1</span></div>
+                    </div>
+                </div>
+                <div class="game-screen" id="game-screen">
+                    <div class="background"></div>
+                    <div class="ground"></div>
+                    <div class="player" id="player-character"></div>
+                    <!-- 敵人和攻擊效果將由JavaScript動態生成 -->
+                </div>
+            </div>
+            
+            <div class="game-buttons">
+                <button class="btn btn-start" id="start-btn">
+                    <i class="fas fa-play"></i> 開始遊戲
+                </button>
+                <button class="btn btn-reset" id="reset-btn">
+                    <i class="fas fa-redo"></i> 重新開始
+                </button>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <div class="control-section">
+                <h3>控制鍵</h3>
+                <div class="control-keys">
+                    <div>
+                        <div class="key">A / ←</div>
+                        <div class="key-action">向左移動</div>
+                    </div>
+                    <div>
+                        <div class="key">D / →</div>
+                        <div class="key-action">向右移動</div>
+                    </div>
+                    <div>
+                        <div class="key">W / ↑ / 空格</div>
+                        <div class="key-action">跳躍</div>
+                    </div>
+                    <div>
+                        <div class="key">J</div>
+                        <div class="key-action">普通攻擊</div>
+                    </div>
+                    <div>
+                        <div class="key">K</div>
+                        <div class="key-action">特殊技能</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="control-section">
+                <h3>遊戲目標</h3>
+                <p>1. 擊敗所有敵軍小兵和將領</p>
+                <p>2. 每關擊敗所有敵人後進入下一關</p>
+                <p>3. 擊敗第3關的BOSS呂布（如選擇呂布則為曹操）</p>
+                <p>4. 獲得最高分數，展現你的武將實力！</p>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>遊戲說明</h3>
+            <p>1. 選擇一位三國武將開始遊戲，每位武將有不同的攻擊方式和特殊技能。</p>
+            <p>2. 使用鍵盤控制武將移動和攻擊，擊敗不斷出現的敵軍。</p>
+            <p>3. 小心敵人的攻擊，你的生命值會在左上角顯示。</p>
+            <p>4. 每擊敗一個敵人獲得100分，擊敗BOSS獲得1000分。</p>
+            <p>5. 遊戲共有3個關卡，第3關將面對強大的BOSS。</p>
+            <p>6. 特殊技能有冷卻時間，請合理使用。</p>
+        </div>
+        
+        <div class="game-over" id="game-over-screen">
+            <h2 id="game-over-title">遊戲結束</h2>
+            <p>最終得分: <span id="final-score">0</span></p>
+            <p>到達關卡: <span id="final-level">1</span></p>
+            <div class="game-buttons">
+                <button class="btn btn-start" id="restart-btn">
+                    <i class="fas fa-redo"></i> 再玩一次
+                </button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>三國猛將傳 - 基於三國演義的橫版動作遊戲 | 設計用於GitHub託管</p>
+            <p>© 2023 三國遊戲工作室 | 此為原型演示版本</p>
+        </footer>
+    </div>
+
+    <script>
+        // 遊戲狀態變量
+        let gameActive = false;
+        let selectedCharacter = 'zhangfei';
+        let playerHealth = 100;
+        let maxHealth = 100;
+        let score = 0;
+        let level = 1;
+        let enemies = [];
+        let attackEffects = [];
+        let specialEffects = [];
+        let gameLoopId = null;
+        let keysPressed = {};
+        let specialCooldown = 0;
+        let enemiesDefeated = 0;
+        let enemiesPerLevel = 5;
+        let gameSpeed = 1.0;
+        
+        // DOM元素
+        const gameScreen = document.getElementById('game-screen');
+        const playerElement = document.getElementById('player-character');
+        const playerHealthBar = document.getElementById('player-health-bar');
+        const scoreElement = document.getElementById('score-value');
+        const levelElement = document.getElementById('level-value');
+        const currentCharacterName = document.getElementById('current-character-name');
+        const gameOverScreen = document.getElementById('game-over-screen');
+        const finalScoreElement = document.getElementById('final-score');
+        const finalLevelElement = document.getElementById('final-level');
+        const gameOverTitle = document.getElementById('game-over-title');
+        
+        // 角色數據
+        const characters = {
+            guanyu: {
+                name: '關羽',
+                color: '#27ae60',
+                attackDamage: 25,
+                specialDamage: 50,
+                speed: 5,
+                health: 100,
+                specialCooldownTime: 120
+            },
+            zhangfei: {
+                name: '張飛',
+                color: '#9b59b6',
+                attackDamage: 20,
+                specialDamage: 40,
+                speed: 4,
+                health: 120,
+                specialCooldownTime: 100
+            },
+            lvbu: {
+                name: '呂布',
+                color: '#e74c3c',
+                attackDamage: 35,
+                specialDamage: 70,
+                speed: 6,
+                health: 90,
+                specialCooldownTime: 150
+            }
+        };
+        
+        // 敵人類型數據
+        const enemyTypes = [
+            { name: '小兵', health: 30, damage: 10, color: '#3498db', speed: 2, points: 100 },
+            { name: '隊長', health: 60, damage: 20, color: '#e67e22', speed: 1.5, points: 200 },
+            { name: '將軍', health: 120, damage: 30, color: '#c0392b', speed: 1, points: 500 }
+        ];
+        
+        // 初始化遊戲
+        function initGame() {
+            // 設置角色選擇事件
+            document.querySelectorAll('.character-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('.character-card').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedCharacter = this.getAttribute('data-character');
+                    
+                    // 更新顯示的角色名稱
+                    const character = characters[selectedCharacter];
+                    currentCharacterName.textContent = character.name;
+                    
+                    // 如果遊戲正在進行中，更新玩家屬性
+                    if (gameActive) {
+                        maxHealth = character.health;
+                        playerHealth = character.health;
+                        updateHealthBar();
+                    }
+                });
+            });
+            
+            // 設置按鈕事件
+            document.getElementById('start-btn').addEventListener('click', startGame);
+            document.getElementById('reset-btn').addEventListener('click', resetGame);
+            document.getElementById('restart-btn').addEventListener('click', restartGame);
+            
+            // 設置鍵盤事件
+            document.addEventListener('keydown', handleKeyDown);
+            document.addEventListener('keyup', handleKeyUp);
+            
+            // 初始化角色圖標
+            initCharacterIcons();
+            
+            // 初始更新健康條
+            updateHealthBar();
+        }
+        
+        // 初始化角色圖標（使用CSS繪製）
+        function initCharacterIcons() {
+            // 關羽圖標 - 綠色
+            document.getElementById('guanyu-icon').style.backgroundColor = '#27ae60';
+            document.getElementById('guanyu-icon').style.backgroundImage = 'linear-gradient(45deg, #145a32 25%, transparent 25%), linear-gradient(-45deg, #145a32 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #145a32 75%), linear-gradient(-45deg, transparent 75%, #145a32 75%)';
+            document.getElementById('guanyu-icon').style.backgroundSize = '20px 20px';
+            document.getElementById('guanyu-icon').style.backgroundPosition = '0 0, 0 10px, 10px -10px, -10px 0px';
+            
+            // 張飛圖標 - 紫色
+            document.getElementById('zhangfei-icon').style.backgroundColor = '#9b59b6';
+            document.getElementById('zhangfei-icon').style.backgroundImage = 'radial-gradient(circle at 30% 30%, #8e44ad 10%, transparent 10%), radial-gradient(circle at 70% 70%, #8e44ad 10%, transparent 10%)';
+            
+            // 呂布圖標 - 紅色
+            document.getElementById('lvbu-icon').style.backgroundColor = '#e74c3c';
+            document.getElementById('lvbu-icon').style.backgroundImage = 'linear-gradient(0deg, transparent 48%, #c0392b 48%, #c0392b 52%, transparent 52%), linear-gradient(90deg, transparent 48%, #c0392b 48%, #c0392b 52%, transparent 52%)';
+        }
+        
+        // 開始遊戲
+        function startGame() {
+            if (gameActive) return;
+            
+            gameActive = true;
+            playerHealth = characters[selectedCharacter].health;
+            maxHealth = characters[selectedCharacter].health;
+            score = 0;
+            level = 1;
+            enemiesDefeated = 0;
+            enemies = [];
+            attackEffects = [];
+            specialEffects = [];
+            specialCooldown = 0;
+            gameSpeed = 1.0;
+            
+            // 更新UI
+            updateHealthBar();
+            updateScore();
+            updateLevel();
+            
+            // 隱藏遊戲結束畫面
+            gameOverScreen.style.display = 'none';
+            
+            // 設置玩家元素樣式
+            playerElement.style.background = characters[selectedCharacter].color;
+            playerElement.style.left = '100px';
+            
+            // 清除之前的遊戲循環
+            if (gameLoopId) clearInterval(gameLoopId);
+            
+            // 開始遊戲循環
+            gameLoopId = setInterval(gameLoop, 1000/60); // 60 FPS
+            
+            // 開始生成敵人
+            setTimeout(generateEnemy, 1000);
+        }
+        
+        // 重置遊戲
+        function resetGame() {
+            gameActive = false;
+            clearInterval(gameLoopId);
+            
+            // 清除所有遊戲元素
+            document.querySelectorAll('.enemy, .boss, .attack-effect, .special-effect').forEach(el => {
+                if (el.parentNode) el.parentNode.removeChild(el);
+            });
+            
+            enemies = [];
+            attackEffects = [];
+            specialEffects = [];
+            
+            // 重置玩家位置
+            playerElement.style.left = '100px';
+            
+            // 重置UI
+            playerHealth = maxHealth;
+            updateHealthBar();
+            score = 0;
+            updateScore();
+            level = 1;
+            updateLevel();
+            
+            // 隱藏遊戲結束畫面
+            gameOverScreen.style.display = 'none';
+        }
+        
+        // 重新開始遊戲
+        function restartGame() {
+            resetGame();
+            startGame();
+        }
+        
+        // 遊戲主循環
+        function gameLoop() {
+            if (!gameActive) return;
+            
+            // 更新冷卻時間
+            if (specialCooldown > 0) {
+                specialCooldown--;
+            }
+            
+            // 處理玩家移動
+            handlePlayerMovement();
+            
+            // 更新敵人
+            updateEnemies();
+            
+            // 更新攻擊效果
+            updateAttackEffects();
+            
+            // 更新特殊效果
+            updateSpecialEffects();
+            
+            // 檢查敵人是否全部被擊敗，進入下一關
+            if (enemiesDefeated >= enemiesPerLevel * level) {
+                nextLevel();
+            }
+        }
+        
+        // 處理玩家移動
+        function handlePlayerMovement() {
+            let playerX = parseInt(playerElement.style.left) || 100;
+            const playerSpeed = characters[selectedCharacter].speed;
+            
+            // 左移
+            if (keysPressed['ArrowLeft'] || keysPressed['a'] || keysPressed['A']) {
+                playerX -= playerSpeed;
+                if (playerX < 0) playerX = 0;
+            }
+            
+            // 右移
+            if (keysPressed['ArrowRight'] || keysPressed['d'] || keysPressed['D']) {
+                playerX += playerSpeed;
+                const screenWidth = gameScreen.clientWidth;
+                if (playerX > screenWidth - 100) playerX = screenWidth - 100;
+            }
+            
+            // 跳躍（此演示中為簡單上下移動）
+            if (keysPressed['ArrowUp'] || keysPressed['w'] || keysPressed['W'] || keysPressed[' ']) {
+                playerElement.style.bottom = '120px';
+            } else {
+                playerElement.style.bottom = '100px';
+            }
+            
+            playerElement.style.left = playerX + 'px';
+            
+            // 攻擊
+            if (keysPressed['j'] || keysPressed['J']) {
+                performAttack();
+            }
+            
+            // 特殊技能
+            if ((keysPressed['k'] || keysPressed['K']) && specialCooldown === 0) {
+                performSpecialAttack();
+            }
+        }
+        
+        // 執行普通攻擊
+        function performAttack() {
+            // 創建攻擊效果
+            const attackEffect = document.createElement('div');
+            attackEffect.className = 'attack-effect';
+            
+            const playerRect = playerElement.getBoundingClientRect();
+            const screenRect = gameScreen.getBoundingClientRect();
+            
+            const attackX = playerRect.left - screenRect.left + 80;
+            const attackY = playerRect.top - screenRect.top + 60;
+            
+            attackEffect.style.left = attackX + 'px';
+            attackEffect.style.top = attackY + 'px';
+            attackEffect.style.backgroundColor = characters[selectedCharacter].color;
+            
+            gameScreen.appendChild(attackEffect);
+            
+            // 添加到攻擊效果數組
+            attackEffects.push({
+                element: attackEffect,
+                x: attackX,
+                y: attackY,
+                lifespan: 10 // 幀數
+            });
+            
+            // 播放攻擊聲音效果（模擬）
+            playSoundEffect('attack');
+            
+            // 檢查是否擊中敵人
+            checkAttackHit(attackX, attackY, characters[selectedCharacter].attackDamage, false);
+        }
+        
+        // 執行特殊攻擊
+        function performSpecialAttack() {
+            const character = characters[selectedCharacter];
+            
+            // 創建特殊效果
+            const specialEffect = document.createElement('div');
+            specialEffect.className = 'special-effect';
+            
+            const playerRect = playerElement.getBoundingClientRect();
+            const screenRect = gameScreen.getBoundingClientRect();
+            
+            const effectX = playerRect.left - screenRect.left + 50;
+            const effectY = playerRect.top - screenRect.top + 30;
+            
+            specialEffect.style.left = effectX + 'px';
+            specialEffect.style.top = effectY + 'px';
+            specialEffect.style.background = `radial-gradient(circle, ${character.color} 0%, rgba(255,0,0,0) 70%)`;
+            
+            gameScreen.appendChild(specialEffect);
+            
+            // 添加到特殊效果數組
+            specialEffects.push({
+                element: specialEffect,
+                x: effectX,
+                y: effectY,
+                lifespan: 30 // 幀數
+            });
+            
+            // 設置冷卻時間
+            specialCooldown = character.specialCooldownTime;
+            
+            // 播放特殊技能聲音效果（模擬）
+            playSoundEffect('special');
+            
+            // 檢查是否擊中敵人（範圍攻擊）
+            checkAttackHit(effectX, effectY, character.specialDamage, true);
+        }
+        
+        // 檢查攻擊是否擊中敵人
+        function checkAttackHit(attackX, attackY, damage, isAreaAttack) {
+            const attackRadius = isAreaAttack ? 100 : 30;
+            
+            for (let i = enemies.length - 1; i >= 0; i--) {
+                const enemy = enemies[i];
+                const enemyRect = enemy.element.getBoundingClientRect();
+                const screenRect = gameScreen.getBoundingClientRect();
+                
+                const enemyX = enemyRect.left - screenRect.left + enemyRect.width / 2;
+                const enemyY = enemyRect.top - screenRect.top + enemyRect.height / 2;
+                
+                // 計算距離
+                const distance = Math.sqrt(Math.pow(enemyX - attackX, 2) + Math.pow(enemyY - attackY, 2));
+                
+                if (distance < attackRadius) {
+                    // 擊中敵人
+                    enemy.health -= damage;
+                    
+                    // 顯示傷害數字
+                    showDamageNumber(enemyX, enemyY, damage);
+                    
+                    if (enemy.health <= 0) {
+                        // 敵人被擊敗
+                        defeatEnemy(i);
+                    }
+                }
+            }
+        }
+        
+        // 顯示傷害數字
+        function showDamageNumber(x, y, damage) {
+            const damageText = document.createElement('div');
+            damageText.textContent = `-${damage}`;
+            damageText.style.position = 'absolute';
+            damageText.style.left = x + 'px';
+            damageText.style.top = y + 'px';
+            damageText.style.color = '#ff0000';
+            damageText.style.fontWeight = 'bold';
+            damageText.style.fontSize = '20px';
+            damageText.style.zIndex = '10';
+            damageText.style.textShadow = '2px 2px 2px #000';
+            
+            gameScreen.appendChild(damageText);
+            
+            // 動畫效果
+            let opacity = 1;
+            let posY = y;
+            const animation = setInterval(() => {
+                opacity -= 0.05;
+                posY -= 2;
+                
+                damageText.style.opacity = opacity;
+                damageText.style.top = posY + 'px';
+                
+                if (opacity <= 0) {
+                    clearInterval(animation);
+                    if (damageText.parentNode) {
+                        damageText.parentNode.removeChild(damageText);
+                    }
+                }
+            }, 50);
+        }
+        
+        // 擊敗敵人
+        function defeatEnemy(index) {
+            const enemy = enemies[index];
+            
+            // 移除敵人元素
+            if (enemy.element.parentNode) {
+                enemy.element.parentNode.removeChild(enemy.element);
+            }
+            
+            // 增加分數
+            score += enemy.points;
+            updateScore();
+            
+            // 增加擊敗敵人數
+            enemiesDefeated++;
+            
+            // 從數組中移除
+            enemies.splice(index, 1);
+            
+            // 播放擊敗聲音效果（模擬）
+            playSoundEffect('defeat');
+        }
+        
+        // 生成敵人
+        function generateEnemy() {
+            if (!gameActive || enemies.length >= 5) return;
+            
+            // 根據關卡決定敵人類型
+            let enemyTypeIndex = 0;
+            if (level >= 3) {
+                enemyTypeIndex = 2; // 將軍
+            } else if (level >= 2) {
+                enemyTypeIndex = Math.random() > 0.7 ? 1 : 0; // 70%小兵，30%隊長
+            } else {
+                enemyTypeIndex = 0; // 小兵
+            }
+            
+            // 第3關生成BOSS
+            if (level === 3 && enemiesDefeated >= enemiesPerLevel * 2 && enemies.length === 0) {
+                generateBoss();
+                return;
+            }
+            
+            const enemyType = enemyTypes[enemyTypeIndex];
+            
+            // 創建敵人元素
+            const enemy = document.createElement('div');
+            enemy.className = 'enemy';
+            enemy.style.backgroundColor = enemyType.color;
+            enemy.style.left = (gameScreen.clientWidth - 50) + 'px';
+            enemy.style.bottom = '100px';
+            
+            // 添加敵人圖案
+            enemy.style.backgroundImage = 'linear-gradient(45deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2) 75%, transparent 75%, transparent)';
+            enemy.style.backgroundSize = '10px 10px';
+            
+            gameScreen.appendChild(enemy);
+            
+            // 添加到敵人
