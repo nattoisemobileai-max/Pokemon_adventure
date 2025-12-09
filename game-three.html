@@ -139,6 +139,12 @@
             background-position: center;
             z-index: 5;
             transition: left 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
         }
         
         .enemy {
@@ -150,6 +156,12 @@
             background-repeat: no-repeat;
             background-position: center;
             z-index: 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
         }
         
         .boss {
@@ -161,6 +173,12 @@
             background-repeat: no-repeat;
             background-position: center;
             z-index: 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
         }
         
         .attack-effect {
@@ -170,16 +188,19 @@
             background-color: rgba(255, 255, 0, 0.7);
             border-radius: 50%;
             z-index: 3;
-            opacity: 0;
+            opacity: 1;
+            transition: opacity 0.2s;
         }
         
         .special-effect {
             position: absolute;
-            width: 100px;
-            height: 100px;
+            width: 150px;
+            height: 150px;
             background: radial-gradient(circle, rgba(255,100,0,0.8) 0%, rgba(255,0,0,0) 70%);
             z-index: 6;
-            opacity: 0;
+            opacity: 1;
+            border-radius: 50%;
+            transition: opacity 0.3s;
         }
         
         .ground {
@@ -239,6 +260,12 @@
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            border-radius: 10px;
         }
         
         .character-name {
@@ -448,6 +475,32 @@
                 height: 100px;
             }
         }
+        
+        .key-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #d4af37;
+            z-index: 20;
+            display: none;
+        }
+        
+        .key-indicator.active {
+            display: block;
+        }
+        
+        .key-indicator div {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .key-indicator span {
+            color: #d4af37;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -459,21 +512,27 @@
         
         <div class="character-select">
             <div class="character-card" data-character="guanyu">
-                <div class="character-icon" id="guanyu-icon"></div>
+                <div class="character-icon" id="guanyu-icon" style="background-color: #27ae60;">
+                    <span>關</span>
+                </div>
                 <div class="character-name">關羽</div>
                 <div class="character-desc">武聖關雲長，青龍偃月刀所向披靡，擁有強大的單體攻擊力。</div>
                 <div class="key-action">攻擊力高，技能：青龍斬</div>
             </div>
             
             <div class="character-card selected" data-character="zhangfei">
-                <div class="character-icon" id="zhangfei-icon"></div>
+                <div class="character-icon" id="zhangfei-icon" style="background-color: #9b59b6;">
+                    <span>張</span>
+                </div>
                 <div class="character-name">張飛</div>
                 <div class="character-desc">萬人敵張翼德，勇猛無雙，擁有範圍攻擊能力。</div>
                 <div class="key-action">範圍攻擊，技能：雷霆怒吼</div>
             </div>
             
             <div class="character-card" data-character="lvbu">
-                <div class="character-icon" id="lvbu-icon"></div>
+                <div class="character-icon" id="lvbu-icon" style="background-color: #e74c3c;">
+                    <span>呂</span>
+                </div>
                 <div class="character-name">呂布</div>
                 <div class="character-desc">人中呂布，馬中赤兔，三國第一猛將，攻擊力最強但防禦較弱。</div>
                 <div class="key-action">攻擊最強，技能：天下無雙</div>
@@ -482,6 +541,11 @@
         
         <div class="game-container">
             <div class="game-area">
+                <div class="key-indicator" id="key-indicator">
+                    <div>當前按鍵:</div>
+                    <div id="pressed-keys"></div>
+                </div>
+                
                 <div class="game-ui">
                     <div class="player-info">
                         <div class="player-name" id="current-character-name">張飛</div>
@@ -497,7 +561,7 @@
                 <div class="game-screen" id="game-screen">
                     <div class="background"></div>
                     <div class="ground"></div>
-                    <div class="player" id="player-character"></div>
+                    <div class="player" id="player-character" style="background-color: #9b59b6;">張飛</div>
                     <!-- 敵人和攻擊效果將由JavaScript動態生成 -->
                 </div>
             </div>
@@ -537,6 +601,7 @@
                         <div class="key-action">特殊技能</div>
                     </div>
                 </div>
+                <p style="text-align: center; margin-top: 15px; color: #d4af37;">按下按鍵試試看！</p>
             </div>
             
             <div class="control-section">
@@ -550,8 +615,8 @@
         
         <div class="instructions">
             <h3>遊戲說明</h3>
-            <p>1. 選擇一位三國武將開始遊戲，每位武將有不同的攻擊方式和特殊技能。</p>
-            <p>2. 使用鍵盤控制武將移動和攻擊，擊敗不斷出現的敵軍。</p>
+            <p>1. <strong>選擇一位三國武將開始遊戲</strong> - 每位武將有不同的攻擊方式和特殊技能。</p>
+            <p>2. <strong>使用鍵盤控制武將移動和攻擊</strong> - 擊敗不斷出現的敵軍。</p>
             <p>3. 小心敵人的攻擊，你的生命值會在左上角顯示。</p>
             <p>4. 每擊敗一個敵人獲得100分，擊敗BOSS獲得1000分。</p>
             <p>5. 遊戲共有3個關卡，第3關將面對強大的BOSS。</p>
@@ -592,6 +657,9 @@
         let enemiesDefeated = 0;
         let enemiesPerLevel = 5;
         let gameSpeed = 1.0;
+        let enemySpawnTimer = 0;
+        let lastAttackTime = 0;
+        let attackCooldown = 300; // 毫秒
         
         // DOM元素
         const gameScreen = document.getElementById('game-screen');
@@ -604,6 +672,8 @@
         const finalScoreElement = document.getElementById('final-score');
         const finalLevelElement = document.getElementById('final-level');
         const gameOverTitle = document.getElementById('game-over-title');
+        const keyIndicator = document.getElementById('key-indicator');
+        const pressedKeysElement = document.getElementById('pressed-keys');
         
         // 角色數據
         const characters = {
@@ -614,7 +684,10 @@
                 specialDamage: 50,
                 speed: 5,
                 health: 100,
-                specialCooldownTime: 120
+                specialCooldownTime: 120,
+                text: '關',
+                attackType: 'single', // 單體攻擊
+                specialName: '青龍斬'
             },
             zhangfei: {
                 name: '張飛',
@@ -623,7 +696,10 @@
                 specialDamage: 40,
                 speed: 4,
                 health: 120,
-                specialCooldownTime: 100
+                specialCooldownTime: 100,
+                text: '張',
+                attackType: 'area', // 範圍攻擊
+                specialName: '雷霆怒吼'
             },
             lvbu: {
                 name: '呂布',
@@ -632,15 +708,18 @@
                 specialDamage: 70,
                 speed: 6,
                 health: 90,
-                specialCooldownTime: 150
+                specialCooldownTime: 150,
+                text: '呂',
+                attackType: 'pierce', // 穿透攻擊
+                specialName: '天下無雙'
             }
         };
         
         // 敵人類型數據
         const enemyTypes = [
-            { name: '小兵', health: 30, damage: 10, color: '#3498db', speed: 2, points: 100 },
-            { name: '隊長', health: 60, damage: 20, color: '#e67e22', speed: 1.5, points: 200 },
-            { name: '將軍', health: 120, damage: 30, color: '#c0392b', speed: 1, points: 500 }
+            { name: '小兵', health: 30, damage: 10, color: '#3498db', speed: 2, points: 100, text: '兵' },
+            { name: '隊長', health: 60, damage: 20, color: '#e67e22', speed: 1.5, points: 200, text: '隊' },
+            { name: '將軍', health: 120, damage: 30, color: '#c0392b', speed: 1, points: 500, text: '將' }
         ];
         
         // 初始化遊戲
@@ -652,15 +731,19 @@
                     this.classList.add('selected');
                     selectedCharacter = this.getAttribute('data-character');
                     
-                    // 更新顯示的角色名稱
+                    // 更新顯示的角色名稱和顏色
                     const character = characters[selectedCharacter];
                     currentCharacterName.textContent = character.name;
                     
-                    // 如果遊戲正在進行中，更新玩家屬性
+                    // 如果遊戲正在進行中，更新玩家屬性和外觀
                     if (gameActive) {
                         maxHealth = character.health;
                         playerHealth = character.health;
                         updateHealthBar();
+                        updatePlayerAppearance();
+                    } else {
+                        // 預覽角色
+                        updatePlayerAppearance();
                     }
                 });
             });
@@ -674,33 +757,30 @@
             document.addEventListener('keydown', handleKeyDown);
             document.addEventListener('keyup', handleKeyUp);
             
-            // 初始化角色圖標
-            initCharacterIcons();
-            
             // 初始更新健康條
             updateHealthBar();
+            
+            // 初始更新玩家外觀
+            updatePlayerAppearance();
+            
+            console.log("遊戲初始化完成！可以選擇角色並開始遊戲。");
         }
         
-        // 初始化角色圖標（使用CSS繪製）
-        function initCharacterIcons() {
-            // 關羽圖標 - 綠色
-            document.getElementById('guanyu-icon').style.backgroundColor = '#27ae60';
-            document.getElementById('guanyu-icon').style.backgroundImage = 'linear-gradient(45deg, #145a32 25%, transparent 25%), linear-gradient(-45deg, #145a32 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #145a32 75%), linear-gradient(-45deg, transparent 75%, #145a32 75%)';
-            document.getElementById('guanyu-icon').style.backgroundSize = '20px 20px';
-            document.getElementById('guanyu-icon').style.backgroundPosition = '0 0, 0 10px, 10px -10px, -10px 0px';
-            
-            // 張飛圖標 - 紫色
-            document.getElementById('zhangfei-icon').style.backgroundColor = '#9b59b6';
-            document.getElementById('zhangfei-icon').style.backgroundImage = 'radial-gradient(circle at 30% 30%, #8e44ad 10%, transparent 10%), radial-gradient(circle at 70% 70%, #8e44ad 10%, transparent 10%)';
-            
-            // 呂布圖標 - 紅色
-            document.getElementById('lvbu-icon').style.backgroundColor = '#e74c3c';
-            document.getElementById('lvbu-icon').style.backgroundImage = 'linear-gradient(0deg, transparent 48%, #c0392b 48%, #c0392b 52%, transparent 52%), linear-gradient(90deg, transparent 48%, #c0392b 48%, #c0392b 52%, transparent 52%)';
+        // 更新玩家外觀
+        function updatePlayerAppearance() {
+            const character = characters[selectedCharacter];
+            playerElement.style.backgroundColor = character.color;
+            playerElement.textContent = character.text;
+            playerElement.style.color = 'white';
+            playerElement.style.fontSize = '2.5rem';
+            playerElement.style.fontWeight = 'bold';
         }
         
         // 開始遊戲
         function startGame() {
             if (gameActive) return;
+            
+            console.log("開始遊戲！選擇的角色:", characters[selectedCharacter].name);
             
             gameActive = true;
             playerHealth = characters[selectedCharacter].health;
@@ -713,6 +793,8 @@
             specialEffects = [];
             specialCooldown = 0;
             gameSpeed = 1.0;
+            enemySpawnTimer = 0;
+            lastAttackTime = 0;
             
             // 更新UI
             updateHealthBar();
@@ -723,8 +805,11 @@
             gameOverScreen.style.display = 'none';
             
             // 設置玩家元素樣式
-            playerElement.style.background = characters[selectedCharacter].color;
+            updatePlayerAppearance();
             playerElement.style.left = '100px';
+            
+            // 顯示玩家
+            playerElement.style.display = 'flex';
             
             // 清除之前的遊戲循環
             if (gameLoopId) clearInterval(gameLoopId);
@@ -732,17 +817,17 @@
             // 開始遊戲循環
             gameLoopId = setInterval(gameLoop, 1000/60); // 60 FPS
             
-            // 開始生成敵人
-            setTimeout(generateEnemy, 1000);
+            console.log("遊戲已開始！使用鍵盤控制角色移動和攻擊。");
         }
         
         // 重置遊戲
         function resetGame() {
+            console.log("重置遊戲");
             gameActive = false;
             clearInterval(gameLoopId);
             
             // 清除所有遊戲元素
-            document.querySelectorAll('.enemy, .boss, .attack-effect, .special-effect').forEach(el => {
+            document.querySelectorAll('.enemy, .boss, .attack-effect, .special-effect, .damage-text').forEach(el => {
                 if (el.parentNode) el.parentNode.removeChild(el);
             });
             
@@ -763,12 +848,63 @@
             
             // 隱藏遊戲結束畫面
             gameOverScreen.style.display = 'none';
+            
+            // 更新玩家外觀
+            updatePlayerAppearance();
         }
         
         // 重新開始遊戲
         function restartGame() {
             resetGame();
             startGame();
+        }
+        
+        // 處理鍵盤按下事件
+        function handleKeyDown(event) {
+            const key = event.key.toLowerCase();
+            keysPressed[key] = true;
+            
+            // 顯示按鍵指示器
+            updateKeyIndicator();
+            
+            // 防止空格鍵滾動頁面
+            if (key === ' ' || key === 'spacebar') {
+                event.preventDefault();
+            }
+            
+            // 如果遊戲未開始，按空格或回車開始遊戲
+            if (!gameActive && (key === ' ' || key === 'enter')) {
+                startGame();
+            }
+            
+            console.log("按鍵按下:", key);
+        }
+        
+        // 處理鍵盤釋放事件
+        function handleKeyUp(event) {
+            const key = event.key.toLowerCase();
+            keysPressed[key] = false;
+            
+            // 更新按鍵指示器
+            updateKeyIndicator();
+        }
+        
+        // 更新按鍵指示器
+        function updateKeyIndicator() {
+            const pressedKeys = [];
+            
+            if (keysPressed['arrowleft'] || keysPressed['a']) pressedKeys.push('←');
+            if (keysPressed['arrowright'] || keysPressed['d']) pressedKeys.push('→');
+            if (keysPressed['arrowup'] || keysPressed['w'] || keysPressed[' ']) pressedKeys.push('↑');
+            if (keysPressed['j']) pressedKeys.push('J');
+            if (keysPressed['k']) pressedKeys.push('K');
+            
+            if (pressedKeys.length > 0) {
+                keyIndicator.classList.add('active');
+                pressedKeysElement.textContent = pressedKeys.join(' ');
+            } else {
+                keyIndicator.classList.remove('active');
+            }
         }
         
         // 遊戲主循環
@@ -782,6 +918,13 @@
             
             // 處理玩家移動
             handlePlayerMovement();
+            
+            // 生成敵人
+            enemySpawnTimer++;
+            if (enemySpawnTimer > 100 / gameSpeed) {
+                generateEnemy();
+                enemySpawnTimer = 0;
+            }
             
             // 更新敵人
             updateEnemies();
@@ -804,40 +947,44 @@
             const playerSpeed = characters[selectedCharacter].speed;
             
             // 左移
-            if (keysPressed['ArrowLeft'] || keysPressed['a'] || keysPressed['A']) {
+            if (keysPressed['arrowleft'] || keysPressed['a']) {
                 playerX -= playerSpeed;
-                if (playerX < 0) playerX = 0;
+                if (playerX < 10) playerX = 10;
             }
             
             // 右移
-            if (keysPressed['ArrowRight'] || keysPressed['d'] || keysPressed['D']) {
+            if (keysPressed['arrowright'] || keysPressed['d']) {
                 playerX += playerSpeed;
                 const screenWidth = gameScreen.clientWidth;
-                if (playerX > screenWidth - 100) playerX = screenWidth - 100;
+                if (playerX > screenWidth - 110) playerX = screenWidth - 110;
             }
             
-            // 跳躍（此演示中為簡單上下移動）
-            if (keysPressed['ArrowUp'] || keysPressed['w'] || keysPressed['W'] || keysPressed[' ']) {
-                playerElement.style.bottom = '120px';
+            // 跳躍
+            if (keysPressed['arrowup'] || keysPressed['w'] || keysPressed[' ']) {
+                playerElement.style.bottom = '130px';
             } else {
                 playerElement.style.bottom = '100px';
             }
             
             playerElement.style.left = playerX + 'px';
             
-            // 攻擊
-            if (keysPressed['j'] || keysPressed['J']) {
+            // 攻擊（有冷卻時間）
+            const currentTime = Date.now();
+            if (keysPressed['j'] && currentTime - lastAttackTime > attackCooldown) {
                 performAttack();
+                lastAttackTime = currentTime;
             }
             
             // 特殊技能
-            if ((keysPressed['k'] || keysPressed['K']) && specialCooldown === 0) {
+            if (keysPressed['k'] && specialCooldown === 0) {
                 performSpecialAttack();
             }
         }
         
         // 執行普通攻擊
         function performAttack() {
+            const character = characters[selectedCharacter];
+            
             // 創建攻擊效果
             const attackEffect = document.createElement('div');
             attackEffect.className = 'attack-effect';
@@ -846,11 +993,21 @@
             const screenRect = gameScreen.getBoundingClientRect();
             
             const attackX = playerRect.left - screenRect.left + 80;
-            const attackY = playerRect.top - screenRect.top + 60;
+            const attackY = playerRect.top - screenRect.top + 70;
             
             attackEffect.style.left = attackX + 'px';
             attackEffect.style.top = attackY + 'px';
-            attackEffect.style.backgroundColor = characters[selectedCharacter].color;
+            attackEffect.style.backgroundColor = character.color;
+            
+            // 根據角色類型調整攻擊效果
+            if (character.attackType === 'area') {
+                attackEffect.style.width = '70px';
+                attackEffect.style.height = '70px';
+            } else if (character.attackType === 'pierce') {
+                attackEffect.style.width = '100px';
+                attackEffect.style.height = '20px';
+                attackEffect.style.borderRadius = '5px';
+            }
             
             gameScreen.appendChild(attackEffect);
             
@@ -859,14 +1016,15 @@
                 element: attackEffect,
                 x: attackX,
                 y: attackY,
-                lifespan: 10 // 幀數
+                lifespan: 15, // 幀數
+                damage: character.attackDamage,
+                attackType: character.attackType
             });
             
-            // 播放攻擊聲音效果（模擬）
-            playSoundEffect('attack');
-            
             // 檢查是否擊中敵人
-            checkAttackHit(attackX, attackY, characters[selectedCharacter].attackDamage, false);
+            checkAttackHit(attackX, attackY, character.attackDamage, character.attackType);
+            
+            console.log(character.name + " 發動普通攻擊！");
         }
         
         // 執行特殊攻擊
@@ -881,11 +1039,22 @@
             const screenRect = gameScreen.getBoundingClientRect();
             
             const effectX = playerRect.left - screenRect.left + 50;
-            const effectY = playerRect.top - screenRect.top + 30;
+            const effectY = playerRect.top - screenRect.top + 50;
             
             specialEffect.style.left = effectX + 'px';
             specialEffect.style.top = effectY + 'px';
             specialEffect.style.background = `radial-gradient(circle, ${character.color} 0%, rgba(255,0,0,0) 70%)`;
+            
+            // 根據角色調整特殊效果
+            if (character.name === '關羽') {
+                specialEffect.style.width = '200px';
+                specialEffect.style.height = '50px';
+                specialEffect.style.borderRadius = '10px';
+                specialEffect.style.background = `linear-gradient(90deg, ${character.color} 0%, rgba(255,0,0,0) 100%)`;
+            } else if (character.name === '張飛') {
+                specialEffect.style.width = '200px';
+                specialEffect.style.height = '200px';
+            }
             
             gameScreen.appendChild(specialEffect);
             
@@ -894,22 +1063,74 @@
                 element: specialEffect,
                 x: effectX,
                 y: effectY,
-                lifespan: 30 // 幀數
+                lifespan: 30, // 幀數
+                damage: character.specialDamage
             });
             
             // 設置冷卻時間
             specialCooldown = character.specialCooldownTime;
             
-            // 播放特殊技能聲音效果（模擬）
-            playSoundEffect('special');
-            
             // 檢查是否擊中敵人（範圍攻擊）
-            checkAttackHit(effectX, effectY, character.specialDamage, true);
+            checkSpecialAttackHit(effectX, effectY, character.specialDamage, character.name);
+            
+            console.log(character.name + " 發動特殊技能：" + character.specialName);
         }
         
-        // 檢查攻擊是否擊中敵人
-        function checkAttackHit(attackX, attackY, damage, isAreaAttack) {
-            const attackRadius = isAreaAttack ? 100 : 30;
+        // 檢查普通攻擊是否擊中敵人
+        function checkAttackHit(attackX, attackY, damage, attackType) {
+            const attackRadius = attackType === 'area' ? 70 : 30;
+            const attackWidth = attackType === 'pierce' ? 100 : attackRadius * 2;
+            const attackHeight = attackType === 'pierce' ? 20 : attackRadius * 2;
+            
+            for (let i = enemies.length - 1; i >= 0; i--) {
+                const enemy = enemies[i];
+                const enemyRect = enemy.element.getBoundingClientRect();
+                const screenRect = gameScreen.getBoundingClientRect();
+                
+                const enemyX = enemyRect.left - screenRect.left + enemyRect.width / 2;
+                const enemyY = enemyRect.top - screenRect.top + enemyRect.height / 2;
+                
+                let hit = false;
+                
+                // 根據攻擊類型檢查碰撞
+                if (attackType === 'pierce') {
+                    // 穿透攻擊檢查矩形碰撞
+                    if (Math.abs(enemyX - attackX) < attackWidth/2 + enemyRect.width/2 &&
+                        Math.abs(enemyY - attackY) < attackHeight/2 + enemyRect.height/2) {
+                        hit = true;
+                    }
+                } else {
+                    // 圓形範圍攻擊
+                    const distance = Math.sqrt(Math.pow(enemyX - attackX, 2) + Math.pow(enemyY - attackY, 2));
+                    if (distance < attackRadius + enemyRect.width/2) {
+                        hit = true;
+                    }
+                }
+                
+                if (hit) {
+                    // 擊中敵人
+                    enemy.health -= damage;
+                    
+                    // 顯示傷害數字
+                    showDamageNumber(enemyX, enemyY, damage);
+                    
+                    if (enemy.health <= 0) {
+                        // 敵人被擊敗
+                        defeatEnemy(i);
+                    } else {
+                        // 敵人受傷效果
+                        enemy.element.style.opacity = '0.7';
+                        setTimeout(() => {
+                            if (enemy.element) enemy.element.style.opacity = '1';
+                        }, 200);
+                    }
+                }
+            }
+        }
+        
+        // 檢查特殊攻擊是否擊中敵人
+        function checkSpecialAttackHit(attackX, attackY, damage, characterName) {
+            const attackRadius = characterName === '關羽' ? 100 : 150;
             
             for (let i = enemies.length - 1; i >= 0; i--) {
                 const enemy = enemies[i];
@@ -940,6 +1161,7 @@
         // 顯示傷害數字
         function showDamageNumber(x, y, damage) {
             const damageText = document.createElement('div');
+            damageText.className = 'damage-text';
             damageText.textContent = `-${damage}`;
             damageText.style.position = 'absolute';
             damageText.style.left = x + 'px';
@@ -949,6 +1171,7 @@
             damageText.style.fontSize = '20px';
             damageText.style.zIndex = '10';
             damageText.style.textShadow = '2px 2px 2px #000';
+            damageText.style.pointerEvents = 'none';
             
             gameScreen.appendChild(damageText);
             
@@ -989,14 +1212,11 @@
             
             // 從數組中移除
             enemies.splice(index, 1);
-            
-            // 播放擊敗聲音效果（模擬）
-            playSoundEffect('defeat');
         }
         
         // 生成敵人
         function generateEnemy() {
-            if (!gameActive || enemies.length >= 5) return;
+            if (!gameActive || enemies.length >= 8) return;
             
             // 根據關卡決定敵人類型
             let enemyTypeIndex = 0;
@@ -1022,11 +1242,211 @@
             enemy.style.backgroundColor = enemyType.color;
             enemy.style.left = (gameScreen.clientWidth - 50) + 'px';
             enemy.style.bottom = '100px';
-            
-            // 添加敵人圖案
-            enemy.style.backgroundImage = 'linear-gradient(45deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2) 75%, transparent 75%, transparent)';
-            enemy.style.backgroundSize = '10px 10px';
+            enemy.textContent = enemyType.text;
+            enemy.style.color = 'white';
+            enemy.style.fontSize = '1.5rem';
+            enemy.style.fontWeight = 'bold';
+            enemy.style.display = 'flex';
+            enemy.style.alignItems = 'center';
+            enemy.style.justifyContent = 'center';
             
             gameScreen.appendChild(enemy);
             
-            // 添加到敵人
+            // 添加到敵人數組
+            enemies.push({
+                element: enemy,
+                health: enemyType.health,
+                maxHealth: enemyType.health,
+                damage: enemyType.damage,
+                speed: enemyType.speed,
+                points: enemyType.points,
+                type: enemyType.name
+            });
+        }
+        
+        // 生成BOSS
+        function generateBoss() {
+            const bossType = {
+                name: selectedCharacter === 'lvbu' ? '曹操' : '呂布',
+                health: 300,
+                damage: 40,
+                color: selectedCharacter === 'lvbu' ? '#2c3e50' : '#e74c3c',
+                speed: 1.2,
+                points: 1000,
+                text: selectedCharacter === 'lvbu' ? '曹' : '呂'
+            };
+            
+            // 創建BOSS元素
+            const boss = document.createElement('div');
+            boss.className = 'boss';
+            boss.style.backgroundColor = bossType.color;
+            boss.style.left = (gameScreen.clientWidth - 100) + 'px';
+            boss.style.bottom = '80px';
+            boss.textContent = bossType.text;
+            boss.style.color = 'white';
+            boss.style.fontSize = '2.5rem';
+            boss.style.fontWeight = 'bold';
+            boss.style.display = 'flex';
+            boss.style.alignItems = 'center';
+            boss.style.justifyContent = 'center';
+            
+            gameScreen.appendChild(boss);
+            
+            // 添加到敵人數組
+            enemies.push({
+                element: boss,
+                health: bossType.health,
+                maxHealth: bossType.health,
+                damage: bossType.damage,
+                speed: bossType.speed,
+                points: bossType.points,
+                type: 'BOSS',
+                isBoss: true
+            });
+            
+            console.log("BOSS出現: " + bossType.name);
+        }
+        
+        // 更新敵人
+        function updateEnemies() {
+            for (let i = enemies.length - 1; i >= 0; i--) {
+                const enemy = enemies[i];
+                let enemyX = parseInt(enemy.element.style.left) || gameScreen.clientWidth;
+                
+                // 敵人向左移動
+                enemyX -= enemy.speed * gameSpeed;
+                enemy.element.style.left = enemyX + 'px';
+                
+                // 檢查敵人是否攻擊玩家
+                const playerRect = playerElement.getBoundingClientRect();
+                const enemyRect = enemy.element.getBoundingClientRect();
+                
+                if (Math.abs(playerRect.left - enemyRect.left) < 100 && 
+                    Math.abs(playerRect.top - enemyRect.top) < 100) {
+                    // 敵人攻擊玩家
+                    if (Math.random() < 0.02) { // 2%機率攻擊
+                        playerHealth -= enemy.damage;
+                        updateHealthBar();
+                        
+                        // 玩家受傷效果
+                        playerElement.style.opacity = '0.7';
+                        setTimeout(() => {
+                            playerElement.style.opacity = '1';
+                        }, 200);
+                        
+                        // 檢查遊戲結束
+                        if (playerHealth <= 0) {
+                            gameOver(false);
+                        }
+                    }
+                }
+                
+                // 如果敵人移出屏幕，移除它
+                if (enemyX < -100) {
+                    if (enemy.element.parentNode) {
+                        enemy.element.parentNode.removeChild(enemy.element);
+                    }
+                    enemies.splice(i, 1);
+                }
+            }
+        }
+        
+        // 更新攻擊效果
+        function updateAttackEffects() {
+            for (let i = attackEffects.length - 1; i >= 0; i--) {
+                const effect = attackEffects[i];
+                effect.lifespan--;
+                
+                // 淡出效果
+                effect.element.style.opacity = effect.lifespan / 15;
+                
+                if (effect.lifespan <= 0) {
+                    if (effect.element.parentNode) {
+                        effect.element.parentNode.removeChild(effect.element);
+                    }
+                    attackEffects.splice(i, 1);
+                }
+            }
+        }
+        
+        // 更新特殊效果
+        function updateSpecialEffects() {
+            for (let i = specialEffects.length - 1; i >= 0; i--) {
+                const effect = specialEffects[i];
+                effect.lifespan--;
+                
+                // 淡出效果
+                effect.element.style.opacity = effect.lifespan / 30;
+                
+                if (effect.lifespan <= 0) {
+                    if (effect.element.parentNode) {
+                        effect.element.parentNode.removeChild(effect.element);
+                    }
+                    specialEffects.splice(i, 1);
+                }
+            }
+        }
+        
+        // 進入下一關
+        function nextLevel() {
+            if (level >= 3) {
+                gameOver(true);
+                return;
+            }
+            
+            level++;
+            enemiesDefeated = 0;
+            gameSpeed += 0.2;
+            updateLevel();
+            
+            console.log("進入第 " + level + " 關！");
+        }
+        
+        // 遊戲結束
+        function gameOver(isVictory) {
+            gameActive = false;
+            clearInterval(gameLoopId);
+            
+            gameOverScreen.style.display = 'block';
+            finalScoreElement.textContent = score;
+            finalLevelElement.textContent = level;
+            
+            if (isVictory) {
+                gameOverTitle.textContent = "恭喜勝利！";
+                gameOverTitle.style.color = "#d4af37";
+            } else {
+                gameOverTitle.textContent = "遊戲結束";
+                gameOverTitle.style.color = "#e74c3c";
+            }
+        }
+        
+        // 更新健康條
+        function updateHealthBar() {
+            const healthPercentage = Math.max(0, (playerHealth / maxHealth) * 100);
+            playerHealthBar.style.width = healthPercentage + '%';
+            
+            // 根據血量改變顏色
+            if (healthPercentage > 60) {
+                playerHealthBar.style.background = 'linear-gradient(to right, #27ae60, #2ecc71)';
+            } else if (healthPercentage > 30) {
+                playerHealthBar.style.background = 'linear-gradient(to right, #f39c12, #f1c40f)';
+            } else {
+                playerHealthBar.style.background = 'linear-gradient(to right, #e74c3c, #c0392b)';
+            }
+        }
+        
+        // 更新分數
+        function updateScore() {
+            scoreElement.textContent = score;
+        }
+        
+        // 更新關卡
+        function updateLevel() {
+            levelElement.textContent = level;
+        }
+        
+        // 頁面加載完成後初始化遊戲
+        window.addEventListener('DOMContentLoaded', initGame);
+    </script>
+</body>
+</html>
